@@ -31,6 +31,7 @@ typedef struct s_tree
 } t_tree;
 
 // Fonctions de gestion de l'arbre (prototypes)
+
 // Initialise un nœud avec une position, un mouvement et un coût
 t_node* create_node(t_position pos, t_move mov, int cost);
 
@@ -38,6 +39,15 @@ t_node* create_node(t_position pos, t_move mov, int cost);
 void free_node(t_node* node);
 
 // Ajoute un enfant à un nœud parent
-void add_child(t_node* parent, t_node* child);gi
+void add_child(t_node* parent, t_node* child);
+
+// Crée un arbre un arbre
+t_tree create_tree(int n);
+
+// Recherche la feuille de valeur minimale d'un arbre
+t_node find_min_node(t_tree);
+
+// Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
+t_node* find_min_path(t_tree,t_node);
 
 #endif // UNTITLED1_TREE_H
