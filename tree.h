@@ -38,6 +38,6 @@ t_node* create_node(t_position pos, t_move mov, int cost);
 void free_node(t_node* node);
 
 // Ajoute un enfant à un nœud parent
-void add_child(t_node* parent, t_node* child);gi
+void add_child(t_node* parent, t_node* child);
 
 #endif // UNTITLED1_TREE_H
