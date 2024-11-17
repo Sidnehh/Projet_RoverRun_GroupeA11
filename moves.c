@@ -21,9 +21,6 @@ t_orientation rotate(t_orientation, t_move );
  * @param move : the move to do
  * @return the new localisation of the robot
  */
-t_localisation translate(t_localisation , t_move);
-
-/* definition of local functions */
 
 t_orientation rotate(t_orientation ori, t_move move)
 {
@@ -153,3 +150,4 @@ void updateLocalisation(t_localisation *p_loc, t_move m)
     *p_loc = move(*p_loc, m);
     return;
 }
+

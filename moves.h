@@ -48,6 +48,11 @@ t_localisation move(t_localisation, t_move);
  * @param move : the move to do
  * @return none
  */
+
+t_localisation translate(t_localisation , t_move);
+
+/* definition of local functions */
+
 void updateLocalisation(t_localisation *, t_move);
 
 #endif //UNTITLED1_MOVES_H
