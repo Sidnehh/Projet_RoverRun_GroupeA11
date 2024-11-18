@@ -20,18 +20,11 @@ typedef struct s_node
     int num_children;             // Nombre d'enfants actuels (utile pour les parcours)
 } t_node;
 
-// Définition de la racine de l'arbre, qui ne représente pas un mouvement, mais sert de point de départ
-typedef struct s_root
-{
-    int cost;                    // Coût de départ initialisé, généralement zéro
-    struct s_node ** children;   // Enfants directs représentant les premiers choix de mouvements
-    int num_children;            // Nombre d'enfants actuels
-} t_root;
 
-// Définition de la structure de l'arbre lui-même
+// Définition de la structure de l'arbre 
 typedef struct s_tree
 {
-    t_root* root;   // Pointeur vers la racine de l'arbre
+    t_node* root;   // Pointeur vers la racine de l'arbre
 } t_tree;
 
 
