@@ -47,19 +47,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2023.3.3\bin\cmake\win\x64\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2023.3.4\bin\cmake\win\x64\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2023.3.3\bin\cmake\win\x64\bin\cmake.exe" -E rm -f
+RM = "C:\Program Files\JetBrains\CLion 2023.3.4\bin\cmake\win\x64\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Sidne\CLionProjects\Projet_RoverRun_GroupeA11
+CMAKE_SOURCE_DIR = C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Sidne\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -67,7 +67,7 @@ CMAKE_BINARY_DIR = C:\Users\Sidne\CLionProjects\Projet_RoverRun_GroupeA11\cmake-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
-	"C:\Program Files\JetBrains\CLion 2023.3.3\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+	"C:\Program Files\JetBrains\CLion 2023.3.4\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -77,7 +77,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake to regenerate build system..."
-	"C:\Program Files\JetBrains\CLion 2023.3.3\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	"C:\Program Files\JetBrains\CLion 2023.3.4\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Sidne\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles C:\Users\Sidne\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Sidne\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -224,6 +224,30 @@ moves.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/moves.c.s
 .PHONY : moves.c.s
 
+queue'.obj: queue'.c.obj
+.PHONY : queue'.obj
+
+# target to build an object file
+queue'.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/queue'.c.obj"
+.PHONY : queue'.c.obj
+
+queue'.i: queue'.c.i
+.PHONY : queue'.i
+
+# target to preprocess a source file
+queue'.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/queue'.c.i"
+.PHONY : queue'.c.i
+
+queue'.s: queue'.c.s
+.PHONY : queue'.s
+
+# target to generate assembly for a file
+queue'.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/queue'.c.s"
+.PHONY : queue'.c.s
+
 queue.obj: queue.c.obj
 .PHONY : queue.obj
 
@@ -248,6 +272,30 @@ queue.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/queue.c.s
 .PHONY : queue.c.s
 
+stack'.obj: stack'.c.obj
+.PHONY : stack'.obj
+
+# target to build an object file
+stack'.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/stack'.c.obj"
+.PHONY : stack'.c.obj
+
+stack'.i: stack'.c.i
+.PHONY : stack'.i
+
+# target to preprocess a source file
+stack'.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/stack'.c.i"
+.PHONY : stack'.c.i
+
+stack'.s: stack'.c.s
+.PHONY : stack'.s
+
+# target to generate assembly for a file
+stack'.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/stack'.c.s"
+.PHONY : stack'.c.s
+
 stack.obj: stack.c.obj
 .PHONY : stack.obj
 
@@ -271,6 +319,30 @@ stack.s: stack.c.s
 stack.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/stack.c.s
 .PHONY : stack.c.s
+
+test_gpt.obj: test_gpt.c.obj
+.PHONY : test_gpt.obj
+
+# target to build an object file
+test_gpt.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/test_gpt.c.obj
+.PHONY : test_gpt.c.obj
+
+test_gpt.i: test_gpt.c.i
+.PHONY : test_gpt.i
+
+# target to preprocess a source file
+test_gpt.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/test_gpt.c.i
+.PHONY : test_gpt.c.i
+
+test_gpt.s: test_gpt.c.s
+.PHONY : test_gpt.s
+
+# target to generate assembly for a file
+test_gpt.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/test_gpt.c.s
+.PHONY : test_gpt.c.s
 
 tree.obj: tree.c.obj
 .PHONY : tree.obj
@@ -317,12 +389,21 @@ help:
 	@echo ... moves.obj
 	@echo ... moves.i
 	@echo ... moves.s
+	@echo ... queue'.obj
+	@echo ... queue'.i
+	@echo ... queue'.s
 	@echo ... queue.obj
 	@echo ... queue.i
 	@echo ... queue.s
+	@echo ... stack'.obj
+	@echo ... stack'.i
+	@echo ... stack'.s
 	@echo ... stack.obj
 	@echo ... stack.i
 	@echo ... stack.s
+	@echo ... test_gpt.obj
+	@echo ... test_gpt.i
+	@echo ... test_gpt.s
 	@echo ... tree.obj
 	@echo ... tree.i
 	@echo ... tree.s

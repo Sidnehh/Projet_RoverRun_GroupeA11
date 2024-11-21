@@ -15,4 +15,9 @@ add_executable(untitled1 main.c
         stack.c
         stack.h
         tree.h
-        tree.c)
+        tree.c
+        queue'.h
+        queue'.c
+        stack'.c
+        stack'.h
+        "test gpt.c")

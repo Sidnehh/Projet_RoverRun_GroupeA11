@@ -3,28 +3,35 @@
 #include "loc.h"
 #include "moves.h"
 #include "map.h"
+#include "stack'.h"
+#include "queue'.h"
+#include "stack'.h"
+
 
 #ifndef UNTITLED1_TREE_H
 #define UNTITLED1_TREE_H
 
-// Structures requises à l'utilisation des arbres
 
-// Définition d'un nœud dans l'arbre, représentant un mouvement spécifique
+
 typedef struct s_node
 {
-    struct s_node ** children;    // Pointeur vers les enfants du nœud
-    struct s_node * parent;       // Pointeur vers le parent, pour retracer le chemin
-    t_position position;          // Position de MARC après ce mouvement
+    struct s_node **children; // Tableau de pointeurs vers les enfants
+    struct s_node *parent;        // Pointeur vers le parent
+    t_localisation loc;          // Position de MARC après ce mouvement
     t_move movement;              // Mouvement effectué pour atteindre cette position
-    int cost;                     // Coût associé pour atteindre cette position
-    int num_children;             // Nombre d'enfants actuels (utile pour les parcours)
+    int cost;
+    int num_children;
+    int max_children;
+    int total_cost;
 } t_node;
+
 
 
 // Définition de la structure de l'arbre 
 typedef struct s_tree
 {
     t_node* root;   // Pointeur vers la racine de l'arbre
+    int nb_movements ;
 } t_tree;
 
 
@@ -32,10 +39,11 @@ typedef struct s_tree
 
 
 // Initialise un nœud avec une position, un mouvement et un coût
-t_node* create_node(t_position pos, t_move mov, int cost, int nb_children);
+t_node* create_node(t_localisation loc, t_move mov, int cost, int max_children,t_node* parent);
 
 // Libère la mémoire allouée pour un nœud et ses enfants
 void free_node(t_node* node);
+
 
 // Ajoute un enfant à un nœud parent
 void add_child(t_node* parent, t_node* child);
@@ -44,16 +52,11 @@ void add_child(t_node* parent, t_node* child);
 t_tree* allocate_tree(int nb_movements);
 
 //Crée une structure de n enfants à un noeud
-void build_from_node(t_node* node, int nb_children, t_localisation position, t_map map);
+void build_from_node(t_node* parent, int nb_children, t_map map);
+void find_min_path(t_tree* tree);
+t_node* find_min_cost_node(t_tree* tree);
 
-// Crée un arbre
-t_tree* create_tree(int, t_map, t_localisation);
-
-// Recherche la feuille de valeur minimale d'un arbre
-t_node find_min_node(t_tree);
-
-// Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
-t_node* find_min_path(t_tree,t_node);
-
+t_stack find_min_cost_path(t_node* min_node);
+t_tree* create_tree(int nb_movements, t_map map);
 
 #endif // UNTITLED1_TREE_H
