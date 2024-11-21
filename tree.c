@@ -7,24 +7,22 @@
 #include <stdio.h>
 #include <time.h>
 
-t_node* create_node(t_localisation loc, t_move mvt_for_access, int cost)
+t_node* create_node(t_move mvt_for_access, int cost)
 {
     t_node* new_node = (t_node*)malloc(sizeof(t_node));
-    if (new_node == NULL) {
+    if (new_node == NULL)
+    {
         printf("Erreur d'allocation mémoire pour un nœud\n");
         return NULL;
     }
 
     // Initialisation des valeurs du nœud
-    new_node->loc = loc;
     new_node->mvt_for_access = mvt_for_access;
     new_node->cost = cost;
     new_node->num_children = 0;
     new_node->children = NULL;  // Initialisation à NULL, allocation dynamique plus tard
     return new_node;
 }
-
-
 
 t_tree* allocate_tree(int nb_movements)
 {
@@ -36,74 +34,88 @@ t_tree* allocate_tree(int nb_movements)
         return NULL;                                     // Retourne NULL pour signaler une erreur
     }
 
-    // Initialisation du nombre de mouvements (capacité maximale des enfants pour la racine)
-    tree->nb_movements = nb_movements;
-
-    // Définition des paramètres initiaux pour la racine de l'arbre
-    t_localisation initial_loc = loc_init(0, 0, NORTH); // Position initiale de la racine (origine)
-    t_move initial_movement = U_TURN;                   // Mouvement initial (neutre dans ce cas)
-    int initial_cost = 0;                               // Coût initial (zéro pour la racine)
-
     // Création et allocation de la racine de l'arbre
-    tree->root = create_node(initial_loc, initial_movement, initial_cost);
+    tree->root = create_node(F_10,0);
     if (tree->root == NULL) {
         printf("Erreur : Impossible d'initialiser la racine.\n");
         free(tree);
         return NULL;
     }
+
+    // Définition des paramètres initiaux pour la racine de l'arbre
+    tree->root->mvt_for_access = U_TURN;                        // Mouvement initial (neutre dans ce cas)
+    tree->root->cost = 0;                                       // Coût initial (zéro pour la racine)
+    tree->root->num_children = nb_movements;
+
     // Retourne le pointeur vers l'arbre initialisé
     return tree;
 }
 
-
-
-//Crée une structure de n enfants à un noeud
-void build_from_node(t_node* parent, int nb_children, t_map map)
+void add_child(t_node* parent, t_node* child)
 {
-
-    if (parent==NULL)
-    {
-        printf("Le parent est non-existant\n");
+    if(parent == NULL || child == NULL){
+        printf("Erreur : L'enfant ou le parent est invalide");
         return;
     }
-    if (nb_children<=0 || nb_children + parent->num_children > parent->num_children)
+    t_node ** new_children_list = (t_node**)realloc(parent->children,sizeof(t_node*)*(parent->num_children+1));
+    if(new_children_list == NULL){
+        printf("Erreur : Ajout du nouvelle enfant impossible");
+        return;
+    }
+    parent->num_children += 1;
+    parent->children = new_children_list;
+    child->parent = parent;
+}
+
+//Crée une structure de n enfants à un noeud
+void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map)
+{
+    if (parent==NULL || parent->num_children == 0)
+    {
+        return;
+    }
+    if (nb_children<=0)
     {
         printf("Le nombre d'enfants n'est pas valide\n");
         return;
     }
-    for (int i =0; i<nb_children;i++)
+    t_node *temp_node;
+    for(int i=0;i<nb_children;i++)
     {
-
-        t_move movement = (t_move)(rand() % 7);
-        t_localisation new_loc = translate(parent->loc, movement);
-
-        if (!isValidLocalisation(new_loc.pos, map.x_max, map.y_max)) {
-            printf("Erreur : Position en dehors des limites pour l'enfant %d.\n", i);
-            return;
-        }
-
-        int cost = map.costs[new_loc.pos.x][new_loc.pos.y];
-        t_node* child = create_node(new_loc,movement,cost);
-
-        if (child == NULL) {
-            printf("Erreur : Impossible de créer l'enfant %d.\n", i);
-            continue; // Passe à l'enfant suivant
-        }
-        add_child(parent, child);
-        build_from_node(child, nb_children - 1, map);
+        temp_node = create_node((t_move)(rand() % 7),map.costs[curr_loc.pos.x][curr_loc.pos.y]);
+        add_child(parent, temp_node);
+        updateLocalisation(&curr_loc, temp_node->mvt_for_access);
+        build_from_node(temp_node, nb_children-1, curr_loc,map);
     }
 }
 
 // Crée un arbre retraçant les mouvements et coûts possibles par rapport à une carte et la position du Rover
-t_tree* create_tree(int nb_movements, t_map map) {
+t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc)
+{
     t_tree *p_tree = allocate_tree(nb_movements);
     if (p_tree == NULL) {
         printf("Erreur : Impossible d'allouer l'arbre.\n");
         return NULL;
     }
-    srand(time(NULL));
-    build_from_node(p_tree->root, nb_movements, map);
+    build_from_node(p_tree->root,nb_movements,start_loc,map);
     return p_tree;
+}
+
+void afficher_arbre(t_node* root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    printf("Mouvement pour y acceder : %c %dm\n", root->mvt_for_access, root->cost);
+    printf("Cout: %d\n", root->cost);
+    printf("Nombre d'enfants: %d\n", root->num_children);
+
+    // Afficher les enfants récursivement
+    for (int i = 0; i < root->num_children; i++)
+    {
+        afficher_arbre(root->children[i]);
+    }
 }
 
 t_node* find_min_cost_node(t_tree* tree);

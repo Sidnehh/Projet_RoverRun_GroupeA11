@@ -15,7 +15,6 @@ typedef struct s_node
     struct s_node ** children;    // Pointeur vers le tableau des enfants du nœud
     struct s_node * parent;       // Pointeur vers le parent, pour retracer le chemin
 
-    t_localisation loc;           // Position du noeud sur la grille
     t_move mvt_for_access;        // Mouvement effectué pour atteindre cette position
 
     int cost;                     // Coût associé pour atteindre cette position
@@ -27,7 +26,6 @@ typedef struct s_node
 typedef struct s_tree
 {
     t_node* root;   // Pointeur vers la racine de l'arbre
-    int nb_movements;
 } t_tree;
 
 
@@ -35,7 +33,7 @@ typedef struct s_tree
 
 
 // Initialise un nœud avec une position, un mouvement et un coût
-t_node* create_node(t_localisation loc, t_move mvt_for_access, int cost);
+t_node* create_node(t_move mvt_for_access, int cost);
 
 // Libère la mémoire allouée pour un nœud et ses enfants
 void free_node(t_node* node);
@@ -47,10 +45,10 @@ void add_child(t_node* parent, t_node* child);
 t_tree* allocate_tree(int nb_movements);
 
 //Crée une structure de n enfants à un noeud
-void build_from_node(t_node* node, int nb_children, t_map map);
+void build_from_node(t_node* node, int nb_children, t_localisation curr_loc, t_map map);
 
 // Crée un arbre
-t_tree* create_tree(int nb_movements, t_map map);
+t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc);
 
 // Recherche la feuille de valeur minimale d'un arbre
 t_node find_min_node(t_tree);

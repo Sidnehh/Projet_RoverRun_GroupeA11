@@ -18,7 +18,11 @@ int main() {
 #else
     map = createMapFromFile("../maps/example1.map");
 #endif
-    t_tree* tree = create_tree(4, map);
+    t_localisation start;
+    start.pos.x = 0;
+    start.pos.y = 0;
+    start.ori = SOUTH;
+    t_tree* tree = create_tree(4, map, start);
     afficher_arbre(tree->root);
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
