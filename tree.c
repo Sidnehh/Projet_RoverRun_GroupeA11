@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 
-t_node* create_node(t_move mvt_for_access, int cost)
+t_node* create_node(t_move mvt_for_access, int cost, int nb_children)
 {
     t_node* new_node = (t_node*)malloc(sizeof(t_node));
     if (new_node == NULL)
@@ -20,7 +20,7 @@ t_node* create_node(t_move mvt_for_access, int cost)
     new_node->mvt_for_access = mvt_for_access;
     new_node->cost = cost;
     new_node->num_children = 0;
-    new_node->children = NULL;  // Initialisation à NULL, allocation dynamique plus tard
+    new_node->children = (t_node**) malloc(nb_children*sizeof(t_node*));
     return new_node;
 }
 
@@ -35,17 +35,24 @@ t_tree* allocate_tree(int nb_movements)
     }
 
     // Création et allocation de la racine de l'arbre
-    tree->root = create_node(F_10,0);
+    tree->root = create_node(F_10,0,nb_movements);
     if (tree->root == NULL) {
         printf("Erreur : Impossible d'initialiser la racine.\n");
         free(tree);
         return NULL;
     }
-
+    if (tree->root->children == NULL)
+    {
+        printf("Erreur d'allocation \n");
+        free(tree->root);
+        free(tree);
+        return NULL;
+    }
     // Définition des paramètres initiaux pour la racine de l'arbre
     tree->root->mvt_for_access = U_TURN;                        // Mouvement initial (neutre dans ce cas)
     tree->root->cost = 0;                                       // Coût initial (zéro pour la racine)
     tree->root->num_children = 0;
+
 
     // Retourne le pointeur vers l'arbre initialisé
     return tree;
@@ -53,13 +60,13 @@ t_tree* allocate_tree(int nb_movements)
 
 void add_child(t_node* parent, t_node* child)
 {
-    printf("1");
-    if(parent == NULL || child == NULL){
+    if(parent == NULL || child == NULL)
+    {
         printf("Erreur : L'enfant ou le parent est invalide");
         return;
     }
     parent->children[parent->num_children] = child;
-    printf("2");
+    parent->num_children++;
     child->parent = parent;
 }
 
@@ -73,7 +80,7 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
     t_node *temp_node;
     for(int i=0;i<nb_children;i++)
     {
-        temp_node = create_node((t_move)(rand() % 7),map.costs[curr_loc.pos.x][curr_loc.pos.y]);
+        temp_node = create_node((t_move)(rand() % 7, nb_children),map.costs[curr_loc.pos.x][curr_loc.pos.y], nb_children-1);
         add_child(parent, temp_node);
         updateLocalisation(&curr_loc, temp_node->mvt_for_access);
         build_from_node(temp_node, nb_children-1, curr_loc,map);
@@ -98,10 +105,11 @@ void afficher_arbre(t_node* root)
     {
         return;
     }
+    printf("\n");
     printf("Mouvement pour y acceder : %c %dm\n", root->mvt_for_access, root->cost);
     printf("Cout: %d\n", root->cost);
     printf("Nombre d'enfants: %d\n", root->num_children);
-
+    printf("\n");
     // Afficher les enfants récursivement
     for (int i = 0; i < root->num_children; i++)
     {

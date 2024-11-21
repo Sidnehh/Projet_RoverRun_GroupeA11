@@ -33,7 +33,7 @@ typedef struct s_tree
 
 
 // Initialise un nœud avec une position, un mouvement et un coût
-t_node* create_node(t_move mvt_for_access, int cost);
+t_node* create_node(t_move mvt_for_access, int cost, int nb_children);
 
 // Libère la mémoire allouée pour un nœud et ses enfants
 void free_node(t_node* node);
