@@ -1,127 +1,111 @@
 //
-// Created by Sidney (Ingénieur) on 12/11/2024.
+// Created by Sabrina on 19/11/2024.
 //
 
 #include "tree.h"
-#include "moves.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 
-// Initialise un nœud avec une position, un mouvement et un coût
-t_node* create_node(t_position pos, t_move mov, int cost, int nb_children)
+t_node* create_node(t_localisation loc, t_move mvt_for_access, int cost)
 {
-    t_node *node = (t_node *) malloc(sizeof(t_node)); // Allocation de mémoire
-    if (node == NULL) //Vérification de l'allocation de mémoire
-    {
-        printf("Erreur d'allocation : Le noeud n'a pas pu être créé. \n");
+    t_node* new_node = (t_node*)malloc(sizeof(t_node));
+    if (new_node == NULL) {
+        printf("Erreur d'allocation mémoire pour un nœud\n");
         return NULL;
     }
-    node->num_children = 0; //Initialisation du nombre de noeuds enfants
-    node->children = (t_node**) malloc(nb_children*sizeof(t_node)); //Initialisation du tableau de noeuds enfants
-    if (node->children == NULL) //Vérification de l'allocation de mémoire
-    {
-        printf("Erreur d'allocation : Les noeuds enfant n'ont pas pu être créés.");
-        return NULL;
-    }
-    node->cost = cost; // Initialisation de l'attribut coût
-    node->movement = mov; // Initialisation de l'attribut mouvement
-    node->position = pos; // Initialisation de l'attribut position
-    return node;
+
+    // Initialisation des valeurs du nœud
+    new_node->loc = loc;
+    new_node->mvt_for_access = mvt_for_access;
+    new_node->cost = cost;
+    new_node->num_children = 0;
+    new_node->children = NULL;  // Initialisation à NULL, allocation dynamique plus tard
+    return new_node;
 }
 
-// Libère la mémoire allouée pour un nœud et ses enfants
-void free_node(t_node* node)
-{
-    if (node==NULL)
-        return;
 
-    int nb_enfants = node->num_children;
-    int i;
-    for(i=0;i<nb_enfants;i++)
-    {
-        free_node(node->children[i]);
-    }
-    free(node->children);
-    free(node);
-}
 
-//Alloue la mémoire d'un arbre selon nombre de mouvements requis
 t_tree* allocate_tree(int nb_movements)
 {
-    t_tree* tree = (t_tree*) malloc(sizeof(t_tree));                                      //Allocation de la mémoire pour l'arbre
-    if (tree == NULL)
+    // Allocation de la mémoire pour la structure de l'arbre
+    t_tree* tree = (t_tree*) malloc(sizeof(t_tree));
+    if (tree == NULL) // Vérifie si l'allocation a échoué
     {
-        printf("Erreur d'allocation : La mémoire pour l'arbre n'a pas été allouée.");
-        return NULL;
+        printf("il y a une erreur d'allocation"); // Message d'erreur en cas d'échec
+        return NULL;                                     // Retourne NULL pour signaler une erreur
     }
-    tree->root = (t_node *) malloc(sizeof(t_node));                                       //Allocation de la mémoire pour la racine
-    if (tree->root == NULL)
-    {
-        printf("Erreur d'allocation : La mémoire pour la racine n'a pas été allouée.");
+
+    // Initialisation du nombre de mouvements (capacité maximale des enfants pour la racine)
+    tree->nb_movements = nb_movements;
+
+    // Définition des paramètres initiaux pour la racine de l'arbre
+    t_localisation initial_loc = loc_init(0, 0, NORTH); // Position initiale de la racine (origine)
+    t_move initial_movement = U_TURN;                   // Mouvement initial (neutre dans ce cas)
+    int initial_cost = 0;                               // Coût initial (zéro pour la racine)
+
+    // Création et allocation de la racine de l'arbre
+    tree->root = create_node(initial_loc, initial_movement, initial_cost);
+    if (tree->root == NULL) {
+        printf("Erreur : Impossible d'initialiser la racine.\n");
         free(tree);
         return NULL;
     }
-    tree->root->children = (t_node**) malloc(nb_movements*sizeof(t_node));                //Allocation de mémoire pour les noeuds enfants
-    if (tree->root->children == NULL)
-    {
-        printf("Erreur d'allocation : la mémoire pour noeuds enfants n'a pas été allouée.");
-        free(tree->root);
-        free(tree);
-        return NULL;
-    }
+    // Retourne le pointeur vers l'arbre initialisé
     return tree;
 }
 
-// Ajoute un enfant à un nœud parent
-void add_child(t_node* parent, t_node* child)
-{
-    parent->children[parent->num_children] = child;
-    parent->num_children++;
-}
+
 
 //Crée une structure de n enfants à un noeud
-void build_from_node(t_node* root, int nb_movements, t_localisation position, t_map map)
+void build_from_node(t_node* parent, int nb_children, t_map map)
 {
-    if(root==NULL || nb_movements<=0)
-        return;
 
-    t_node* node_temp;                                                                         //Initialisation du noeud temporaire pour créer enfants
-    t_position node_pos;                                                                       //Initialisation de variable temporaire t_position
-    t_move movement;                                                                           //Initialisation de variable temporaire t_movement
-    int cost;                                                                                  //Initialisation d'une variable temporaire cost
-    for(int i=0; i<nb_movements; i++)
+    if (parent==NULL)
     {
-        movement = (t_move)rand()%7;                                                           //Choix d'un mouvement au hasard parmi les 7 disponibles
-        node_pos = translate(position,movement).pos;                                           //Définition de la position du noeud
-        cost = map.costs[node_pos.x][node_pos.y];                                              //Définition du coût
-        node_temp = create_node(node_pos, movement, cost, nb_movements-1); //Création du noeud
-        add_child(root, node_temp);
-        build_from_node(node_temp, node_temp->num_children, move(position, node_temp->movement), map);
+        printf("Le parent est non-existant\n");
+        return;
+    }
+    if (nb_children<=0 || nb_children + parent->num_children > parent->num_children)
+    {
+        printf("Le nombre d'enfants n'est pas valide\n");
+        return;
+    }
+    for (int i =0; i<nb_children;i++)
+    {
+
+        t_move movement = (t_move)(rand() % 7);
+        t_localisation new_loc = translate(parent->loc, movement);
+
+        if (!isValidLocalisation(new_loc.pos, map.x_max, map.y_max)) {
+            printf("Erreur : Position en dehors des limites pour l'enfant %d.\n", i);
+            return;
+        }
+
+        int cost = map.costs[new_loc.pos.x][new_loc.pos.y];
+        t_node* child = create_node(new_loc,movement,cost);
+
+        if (child == NULL) {
+            printf("Erreur : Impossible de créer l'enfant %d.\n", i);
+            continue; // Passe à l'enfant suivant
+        }
+        add_child(parent, child);
+        build_from_node(child, nb_children - 1, map);
     }
 }
 
 // Crée un arbre retraçant les mouvements et coûts possibles par rapport à une carte et la position du Rover
-t_tree* create_tree(int nb_movements, t_map map, t_localisation position)
-{
-    t_tree* tree = allocate_tree(nb_movements);
-    tree->root->cost = 0;                                                                      //Initialisation du coût du noeud racine
-    tree->root->num_children = 0;                                                              //Initialisation du nombre de noeuds enfants
-
-    t_node* node_temp;                                                                         //Initialisation du noeud temporaire pour créer enfants
-    t_position node_pos;                                                                       //Initialisation de variable temporaire t_position
-    t_move movement;                                                                           //Initialisation de variable temporaire t_movement
-    int cost;                                                                                  //Initialisation d'une variable temporaire cost
-    srand(time(NULL));                                                              //Initialisation du générateur de nombre aléatoire
-
-    build_from_node(tree->root, nb_movements, position, map);
-    return tree;
+t_tree* create_tree(int nb_movements, t_map map) {
+    t_tree *p_tree = allocate_tree(nb_movements);
+    if (p_tree == NULL) {
+        printf("Erreur : Impossible d'allouer l'arbre.\n");
+        return NULL;
+    }
+    srand(time(NULL));
+    build_from_node(p_tree->root, nb_movements, map);
+    return p_tree;
 }
 
-// Recherche la feuille de valeur minimale d'un arbre
-t_node find_min_node(t_tree tree);
-//à compléter
+t_node* find_min_cost_node(t_tree* tree);
 
-// Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
-t_node* find_min_path(t_tree,t_node);
-//à compléter
+void find_min_path(t_tree* tree);
