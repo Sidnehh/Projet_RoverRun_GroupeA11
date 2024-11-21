@@ -38,4 +38,5 @@ void enqueue(t_queue *,t_position);
  */
 t_position dequeue(t_queue *);
 
+int is_empty(t_queue* queue);
 #endif //UNTITLED1_QUEUE_H
