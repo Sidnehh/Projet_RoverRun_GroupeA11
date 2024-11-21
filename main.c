@@ -7,9 +7,6 @@
 int main() {
     t_map map;
     t_localisation start_loc;
-    start_loc.pos.x = 0;
-    start_loc.pos.y = 0;
-    start_loc.ori = SOUTH;
     // The following preprocessor directive checks if the code is being compiled on a Windows system.
     // If either _WIN32 or _WIN64 is defined, it means we are on a Windows platform.
     // On Windows, file paths use backslashes (\), hence we use the appropriate file path for Windows.

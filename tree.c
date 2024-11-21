@@ -45,7 +45,7 @@ t_tree* allocate_tree(int nb_movements)
     // Définition des paramètres initiaux pour la racine de l'arbre
     tree->root->mvt_for_access = U_TURN;                        // Mouvement initial (neutre dans ce cas)
     tree->root->cost = 0;                                       // Coût initial (zéro pour la racine)
-    tree->root->num_children = nb_movements;
+    tree->root->num_children = 0;
 
     // Retourne le pointeur vers l'arbre initialisé
     return tree;
@@ -57,26 +57,15 @@ void add_child(t_node* parent, t_node* child)
         printf("Erreur : L'enfant ou le parent est invalide");
         return;
     }
-    t_node ** new_children_list = (t_node**)realloc(parent->children,sizeof(t_node*)*(parent->num_children+1));
-    if(new_children_list == NULL){
-        printf("Erreur : Ajout du nouvelle enfant impossible");
-        return;
-    }
-    parent->num_children += 1;
-    parent->children = new_children_list;
+    parent->children[parent->num_children] = child;
     child->parent = parent;
 }
 
 //Crée une structure de n enfants à un noeud
 void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map)
 {
-    if (parent==NULL || parent->num_children == 0)
+    if (parent==NULL || nb_children <= 0)
     {
-        return;
-    }
-    if (nb_children<=0)
-    {
-        printf("Le nombre d'enfants n'est pas valide\n");
         return;
     }
     t_node *temp_node;
