@@ -53,11 +53,13 @@ t_tree* allocate_tree(int nb_movements)
 
 void add_child(t_node* parent, t_node* child)
 {
+    printf("1");
     if(parent == NULL || child == NULL){
         printf("Erreur : L'enfant ou le parent est invalide");
         return;
     }
     parent->children[parent->num_children] = child;
+    printf("2");
     child->parent = parent;
 }
 
