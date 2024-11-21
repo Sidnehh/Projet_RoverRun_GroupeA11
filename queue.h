@@ -1,41 +1,23 @@
-//
-// Created by flasque on 19/10/2024.
-//
+#ifndef QUEUE_H
+#define QUEUE_H
 
-#ifndef UNTITLED1_QUEUE_H
-#define UNTITLED1_QUEUE_H
-#include "loc.h"
+#include "node.h"
+
 /**
- * @brief Structure for the queue of integers
+ * @brief Structure for the queue of t_node pointers
  */
 typedef struct s_queue
 {
-    t_position *values;
-    int size;
-    int last;
-    int first;
+    t_node **values; // Array of pointers to t_node
+    int size;        // Maximum size of the queue
+    int last;        // Index of the last element
+    int first;       // Index of the first element
 } t_queue;
 
-/**
- * @brief Function to create a queue
- * @param size : the size of the queue
- * @return the queue
- */
-t_queue createQueue(int);
+// Function prototypes
+t_queue createQueue(int size);
+void enqueue(t_queue *p_queue, t_node *node);
+t_node *dequeue(t_queue *p_queue);
 
-/**
- * @brief Function to enqueue a value in the queue
- * @param p_queue : pointer to the queue
- * @param value : the position to enqueue
- * @return none
- */
-void enqueue(t_queue *,t_position);
+#endif // QUEUE_H
 
-/**
- * @brief Function to dequeue a value from the queue
- * @param p_queue : pointer to the queue
- * @return the value dequeued
- */
-t_position dequeue(t_queue *);
-
-#endif //UNTITLED1_QUEUE_H

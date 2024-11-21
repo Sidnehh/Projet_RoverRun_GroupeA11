@@ -56,10 +56,10 @@ RM = "C:\Program Files\JetBrains\CLion 2023.3.4\bin\cmake\win\x64\bin\cmake.exe"
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11
+CMAKE_SOURCE_DIR = C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\SURFACE\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -224,29 +224,29 @@ moves.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/moves.c.s
 .PHONY : moves.c.s
 
-queue'.obj: queue'.c.obj
-.PHONY : queue'.obj
+node.obj: node.c.obj
+.PHONY : node.obj
 
 # target to build an object file
-queue'.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/queue'.c.obj"
-.PHONY : queue'.c.obj
+node.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/node.c.obj
+.PHONY : node.c.obj
 
-queue'.i: queue'.c.i
-.PHONY : queue'.i
+node.i: node.c.i
+.PHONY : node.i
 
 # target to preprocess a source file
-queue'.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/queue'.c.i"
-.PHONY : queue'.c.i
+node.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/node.c.i
+.PHONY : node.c.i
 
-queue'.s: queue'.c.s
-.PHONY : queue'.s
+node.s: node.c.s
+.PHONY : node.s
 
 # target to generate assembly for a file
-queue'.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/queue'.c.s"
-.PHONY : queue'.c.s
+node.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/node.c.s
+.PHONY : node.c.s
 
 queue.obj: queue.c.obj
 .PHONY : queue.obj
@@ -271,30 +271,6 @@ queue.s: queue.c.s
 queue.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/queue.c.s
 .PHONY : queue.c.s
-
-stack'.obj: stack'.c.obj
-.PHONY : stack'.obj
-
-# target to build an object file
-stack'.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/stack'.c.obj"
-.PHONY : stack'.c.obj
-
-stack'.i: stack'.c.i
-.PHONY : stack'.i
-
-# target to preprocess a source file
-stack'.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/stack'.c.i"
-.PHONY : stack'.c.i
-
-stack'.s: stack'.c.s
-.PHONY : stack'.s
-
-# target to generate assembly for a file
-stack'.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make "CMakeFiles/untitled1.dir/stack'.c.s"
-.PHONY : stack'.c.s
 
 stack.obj: stack.c.obj
 .PHONY : stack.obj
@@ -389,15 +365,12 @@ help:
 	@echo ... moves.obj
 	@echo ... moves.i
 	@echo ... moves.s
-	@echo ... queue'.obj
-	@echo ... queue'.i
-	@echo ... queue'.s
+	@echo ... node.obj
+	@echo ... node.i
+	@echo ... node.s
 	@echo ... queue.obj
 	@echo ... queue.i
 	@echo ... queue.s
-	@echo ... stack'.obj
-	@echo ... stack'.i
-	@echo ... stack'.s
 	@echo ... stack.obj
 	@echo ... stack.i
 	@echo ... stack.s

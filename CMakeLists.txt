@@ -10,14 +10,12 @@ add_executable(untitled1 main.c
         moves.h
         map.c
         map.h
-        queue.c
-        queue.h
-        stack.c
-        stack.h
         tree.h
         tree.c
-        queue'.h
-        queue'.c
-        stack'.c
-        stack'.h
-        "test gpt.c")
+        queue.h
+        queue.c
+        stack.c
+        stack.h
+        "test gpt.c"
+        node.c
+        node.h)

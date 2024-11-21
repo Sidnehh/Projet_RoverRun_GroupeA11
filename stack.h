@@ -1,48 +1,23 @@
-//
-// Created by flasque on 19/10/2024.
-//
-
 #ifndef UNTITLED1_STACK_H
 #define UNTITLED1_STACK_H
 
+#include "node.h"
+
 /**
- * @brief Structure for the stack of integers
+ * @brief Structure for the stack of t_node pointers
  */
 typedef struct s_stack
 {
-    int *values;
-    int size;
-    int nbElts;
+    t_node **values; // Array of pointers to t_node
+    int size;        // Maximum size of the stack
+    int nbElts;      // Number of elements currently in the stack
 } t_stack;
 
-/**
- * @brief Function to create a stack
- * @param size : the size of the stack
- * @return the stack
- */
-t_stack createStack(int);
-
-/**
- * @brief Function to push a value in the stack
- * @param pointer to the stack
- * @param value : the value to push
- * @return none
- */
-void push(t_stack *, int);
-
-/**
- * @brief Function to pop a value from the stack
- * @param : pointer to the stack
- * @return the value popped
- */
-int pop(t_stack *);
-
-/**
- * @brief Function to get the top value of the stack
- * @param stack : the stack
- * @return the top value
- */
-int top(t_stack);
-
+// Function prototypes
+t_stack createStack(int size);
+void push(t_stack *p_stack, t_node *node);
+t_node *pop(t_stack *p_stack);
+t_node *top(t_stack stack);
 
 #endif //UNTITLED1_STACK_H
+

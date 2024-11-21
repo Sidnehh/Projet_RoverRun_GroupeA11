@@ -4,11 +4,11 @@
 #include "tree.h"
 #include "moves.h"
 #include "map.h"
-#include "stack.h"
 #include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "node.h"
 
 int main() {
     // Initialisation de la carte
