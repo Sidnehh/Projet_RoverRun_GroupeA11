@@ -55,7 +55,7 @@ t_tree* allocate_tree(int nb_movements)
         printf("Erreur d'allocation : La mémoire pour l'arbre n'a pas été allouée.");
         return NULL;
     }
-    tree->root = (t_root *) malloc(sizeof(t_root));                                       //Allocation de la mémoire pour la racine
+    tree->root = (t_node *) malloc(sizeof(t_node));                                       //Allocation de la mémoire pour la racine
     if (tree->root == NULL)
     {
         printf("Erreur d'allocation : La mémoire pour la racine n'a pas été allouée.");
