@@ -113,6 +113,26 @@ void afficher_arbre(t_node* root)
     }
 }
 
-t_node* find_min_cost_node(t_tree* tree);
+t_node* find_min_cost_node(t_node* cur_node, t_node* min_node){
+    if(cur_node== NULL){
+        printf("Erreur: arbre vide");
+    }
+    if(cur_node->cost < min_node->cost){
+        min_node = cur_node;
+    }
+    for (int i = 0; i < cur_node->num_children; i++) {
+        min_node = find_min_cost_node(cur_node->children[i], min_node);
+    }
+    return min_node;
+}
 
-void find_min_path(t_tree* tree);
+
+t_node* getMinRec(t_tree* tree){
+    if(tree == NULL || tree -> root == NULL)
+    {
+        return NULL;
+    }
+    t_node i_node;
+    i_node.cost = 15000;// On crée un noeud avec un coût très élevé
+    return find_min_cost_node(tree->root,&i_node);
+}
