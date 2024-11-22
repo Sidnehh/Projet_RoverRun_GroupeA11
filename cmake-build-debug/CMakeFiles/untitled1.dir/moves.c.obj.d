@@ -1,5 +1,4 @@
 CMakeFiles/untitled1.dir/moves.c.obj: \
-<<<<<<< HEAD
  C:\Users\Sidne\OneDrive\Bureau\Projet_RoverRun_GroupeA11\moves.c \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/stdlib.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/corecrt.h \
@@ -19,8 +18,3 @@ CMakeFiles/untitled1.dir/moves.c.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/errno.h \
  C:\Users\Sidne\OneDrive\Bureau\Projet_RoverRun_GroupeA11\moves.h \
  C:\Users\Sidne\OneDrive\Bureau\Projet_RoverRun_GroupeA11\loc.h
-=======
- C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\moves.c \
- C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\moves.h \
- C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\loc.h
->>>>>>> e5653033ebda31f30bed5d14d2ea0a459ceb66d5

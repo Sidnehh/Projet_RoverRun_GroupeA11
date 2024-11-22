@@ -22,7 +22,7 @@ int main() {
     start.pos.x = 0;
     start.pos.y = 0;
     start.ori = SOUTH;
-    t_tree* tree = create_tree(4, map, start);
+    t_tree* tree = create_tree(3, map, start);
     afficher_arbre(tree->root);
     int val;
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
