@@ -73,9 +73,10 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
     t_node *temp_node;
     t_move new_mov;
     t_localisation new_pos;
+    t_move* moves = getRandomMoves(nb_children);
     for(int i=0;i<nb_children;i++)
     {
-        new_mov = F_10;
+        new_mov = moves[i];
         new_pos = predictLocalisation(curr_loc, new_mov);
         temp_node = create_node(new_mov,map.costs[new_pos.pos.x][new_pos.pos.y], nb_children-1);
         add_child(parent, temp_node);

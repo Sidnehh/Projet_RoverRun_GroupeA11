@@ -170,7 +170,7 @@ t_localisation predictLocalisation(t_localisation p_loc, t_move m)
 
 t_move *getRandomMoves(int N)
 {
-    int nbmoves[]={22,15,7,7,21,21,7};
+    int nbmoves[] ={22,15,7,7,21,21,7};
     int total_moves=100;
     t_move *moves = (t_move *)malloc(N * sizeof(t_move));
     for (int i = 0; i < N; i++)
