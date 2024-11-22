@@ -60,5 +60,6 @@ t_localisation translate(t_localisation , t_move);
 /* definition of local functions */
 
 void updateLocalisation(t_localisation *, t_move);
+t_localisation predictLocalisation(t_localisation p_loc, t_move m);
 t_move *getRandomMoves(int N);
 #endif //UNTITLED1_MOVES_H

@@ -163,6 +163,11 @@ void updateLocalisation(t_localisation *p_loc, t_move m)
     return;
 }
 
+t_localisation predictLocalisation(t_localisation p_loc, t_move m)
+{
+    return move(p_loc, m);
+}
+
 t_move *getRandomMoves(int N)
 {
     int nbmoves[]={22,15,7,7,21,21,7};

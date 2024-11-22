@@ -48,10 +48,6 @@ t_tree* allocate_tree(int nb_movements)
         free(tree);
         return NULL;
     }
-    // Définition des paramètres initiaux pour la racine de l'arbre
-
-
-    // Retourne le pointeur vers l'arbre initialisé
     return tree;
 }
 
@@ -75,12 +71,15 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
         return;
     }
     t_node *temp_node;
+    t_move new_mov;
+    t_localisation new_pos;
     for(int i=0;i<nb_children;i++)
     {
-        temp_node = create_node(F_10,map.costs[curr_loc.pos.x][curr_loc.pos.y], nb_children-1);
+        new_mov = F_10;
+        new_pos = predictLocalisation(curr_loc, new_mov);
+        temp_node = create_node(new_mov,map.costs[new_pos.pos.x][new_pos.pos.y], nb_children-1);
         add_child(parent, temp_node);
-        updateLocalisation(&curr_loc, temp_node->mvt_for_access);
-        build_from_node(temp_node, nb_children-1, curr_loc,map);
+        build_from_node(temp_node, nb_children-1, new_pos, map);
     }
 }
 
@@ -88,10 +87,7 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
 t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc)
 {
     t_tree *p_tree = allocate_tree(nb_movements);
-    if (p_tree == NULL) {
-        printf("Erreur : Impossible d'allouer l'arbre.\n");
-        return NULL;
-    }
+    p_tree->root->cost = map.costs[start_loc.pos.x][start_loc.pos.y];
     build_from_node(p_tree->root,nb_movements,start_loc,map);
     return p_tree;
 }
@@ -125,7 +121,6 @@ t_node* find_min_cost_node(t_node* cur_node, t_node* min_node){
     }
     return min_node;
 }
-
 
 t_node* getMinRec(t_tree* tree){
     if(tree == NULL || tree -> root == NULL)
