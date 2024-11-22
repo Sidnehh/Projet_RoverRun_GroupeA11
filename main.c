@@ -2,13 +2,9 @@
 #include "map.h"
 #include "tree.h"
 #include "loc.h"
-<<<<<<< HEAD
 #include "moves.h"
-
-=======
 #define NOMINMAX
 #include <Windows.h>
->>>>>>> e5653033ebda31f30bed5d14d2ea0a459ceb66d5
 
 int main() {
     SetConsoleOutputCP(65001); // Pour pouvoir mettre des caractères spéciaux
@@ -28,11 +24,7 @@ int main() {
     start.ori = SOUTH;
     t_tree* tree = create_tree(4, map, start);
     afficher_arbre(tree->root);
-<<<<<<< HEAD
     int val;
-=======
-
->>>>>>> e5653033ebda31f30bed5d14d2ea0a459ceb66d5
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
     {
