@@ -2,9 +2,11 @@
 #include "map.h"
 #include "tree.h"
 #include "loc.h"
-
+#define NOMINMAX
+#include <Windows.h>
 
 int main() {
+    SetConsoleOutputCP(65001); // Pour pouvoir mettre des caractères spéciaux
     t_map map;
     t_localisation start_loc;
     // The following preprocessor directive checks if the code is being compiled on a Windows system.
@@ -21,6 +23,7 @@ int main() {
     start.ori = SOUTH;
     t_tree* tree = create_tree(4, map, start);
     afficher_arbre(tree->root);
+
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
     {
