@@ -105,6 +105,14 @@ void afficher_arbre(t_node* root)
     {
         return;
     }
+<<<<<<< HEAD
+=======
+    printf("\n");
+    printf("Mouvement pour y acceder : %s\n", getMoveAsString(root->mvt_for_access));
+    printf("Cout: %d\n", root->cost);
+    printf("Nombre d'enfants: %d\n", root->num_children);
+    printf("\n");
+>>>>>>> e5653033ebda31f30bed5d14d2ea0a459ceb66d5
     // Afficher les enfants récursivement
     for (int i = 0; i < root->num_children; i++)
     {
