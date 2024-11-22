@@ -2,6 +2,7 @@
 #include "map.h"
 #include "tree.h"
 #include "loc.h"
+#include "moves.h"
 
 
 int main() {
@@ -21,6 +22,7 @@ int main() {
     start.ori = SOUTH;
     t_tree* tree = create_tree(4, map, start);
     afficher_arbre(tree->root);
+    int val;
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
     {

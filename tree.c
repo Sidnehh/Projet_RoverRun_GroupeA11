@@ -80,7 +80,7 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
     t_node *temp_node;
     for(int i=0;i<nb_children;i++)
     {
-        temp_node = create_node((t_move)(rand() % 7, nb_children),map.costs[curr_loc.pos.x][curr_loc.pos.y], nb_children-1);
+        temp_node = create_node(*getRandomMoves(nb_children),map.costs[curr_loc.pos.x][curr_loc.pos.y], nb_children-1);
         add_child(parent, temp_node);
         updateLocalisation(&curr_loc, temp_node->mvt_for_access);
         build_from_node(temp_node, nb_children-1, curr_loc,map);
@@ -105,14 +105,14 @@ void afficher_arbre(t_node* root)
     {
         return;
     }
-    printf("\n");
-    printf("Mouvement pour y acceder : %c %dm\n", root->mvt_for_access, root->cost);
-    printf("Cout: %d\n", root->cost);
-    printf("Nombre d'enfants: %d\n", root->num_children);
-    printf("\n");
     // Afficher les enfants récursivement
     for (int i = 0; i < root->num_children; i++)
     {
+        printf("\n");
+        printf("Mouvement pour y acceder : %c %dm\n", root->mvt_for_access, root->cost);
+        printf("Cout: %d\n", root->cost);
+        printf("Nombre d'enfants: %d\n", root->num_children);
+        printf("\n");
         afficher_arbre(root->children[i]);
     }
 }
