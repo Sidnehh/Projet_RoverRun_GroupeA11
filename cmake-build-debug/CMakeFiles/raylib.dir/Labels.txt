@@ -1,0 +1,13 @@
+# Target labels
+ raylib
+# Source files and their labels
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/CMakeFiles/raylib
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/CMakeFiles/raylib.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/CMakeFiles/raylib-complete.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-build.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-configure.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-download.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-install.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-mkdir.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-patch.rule
+C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-update.rule

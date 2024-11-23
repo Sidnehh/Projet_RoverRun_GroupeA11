@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/CMakeFiles/raylib"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/CMakeFiles/raylib.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/CMakeFiles/raylib-complete.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-build.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-configure.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-download.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-install.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-patch.rule"
+		},
+		{
+			"file" : "C:/Users/Sidne/OneDrive/Bureau/Projet_RoverRun_GroupeA11/cmake-build-debug/_deps/src/raylib-stamp/raylib-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"raylib"
+		],
+		"name" : "raylib"
+	}
+}

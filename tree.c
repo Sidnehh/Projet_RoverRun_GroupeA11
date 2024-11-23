@@ -89,7 +89,7 @@ void afficher_arbre(t_node* root)
         return;
     }
     printf("\n");
-    printf("Mouvement pour y acceder : %s %d\n", getMoveAsString(root->mvt_for_access));
+    printf("Mouvement pour y acceder : %s\n", getMoveAsString(root->mvt_for_access));
     printf("Cout: %d\n", root->cost);
     printf("Nombre d'enfants: %d\n", root->num_children);
     printf("\n");

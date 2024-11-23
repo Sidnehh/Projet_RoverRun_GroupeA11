@@ -1,0 +1,10 @@
+# Hashes of file build rules.
+cf015cc416d7f9d2039685d1f2f0fa3b CMakeFiles/raylib-complete
+2d5381b45f52576eb9f0c78c21e201c1 _deps/raylib-build/CMakeFiles/uninstall
+e81584fb47bde3f82e0a92e8fb7d9d99 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings
+787bccbe9017a039957e576430492770 _deps/src/raylib-stamp/raylib-build
+b2d6202ec7edc4d126bc76e3f1e558ad _deps/src/raylib-stamp/raylib-configure
+86552caf347bbc88521bc1b88af76544 _deps/src/raylib-stamp/raylib-download
+28f9d8968b79eebe77f34e4c882a20ab _deps/src/raylib-stamp/raylib-install
+edbe9b40cda77edae0da03f2bb8d42fe _deps/src/raylib-stamp/raylib-mkdir
+eb498b6d81d60d0b9ed1ba27feab0ec0 _deps/src/raylib-stamp/raylib-patch
