@@ -3,23 +3,15 @@
 #include "loc.h"
 #include "moves.h"
 #include "map.h"
-
+#include "stack.h"
+#include "node.h"
 #ifndef UNTITLED1_TREE_H
 #define UNTITLED1_TREE_H
 
 // Structures requises à l'utilisation des arbres
 
 // Définition d'un nœud dans l'arbre, représentant un mouvement spécifique
-typedef struct s_node
-{
-    struct s_node ** children;    // Pointeur vers le tableau des enfants du nœud
-    struct s_node * parent;       // Pointeur vers le parent, pour retracer le chemin
 
-    t_move mvt_for_access;        // Mouvement effectué pour atteindre cette position
-
-    int cost;                     // Coût associé pour atteindre cette position
-    int num_children;             // Nombre d'enfants actuels (utile pour les parcours)
-} t_node;
 
 
 // Définition de la structure de l'arbre 
@@ -58,5 +50,5 @@ t_node* getMinRec(t_tree* tree);
 
 // Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
 void afficher_arbre(t_node* root);
-t_node** findMinCostPath(t_tree* tree);
+t_stack findMinCostPath(t_tree* tree);
 #endif // UNTITLED1_TREE_H

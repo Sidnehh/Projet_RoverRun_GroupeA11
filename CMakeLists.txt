@@ -7,4 +7,6 @@ add_executable(untitled1
         map.c
         queue.c
         stack.c
-        tree.c)
+        tree.c
+        node.c
+        node.h)

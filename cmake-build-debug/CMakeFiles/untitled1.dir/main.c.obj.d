@@ -15,6 +15,8 @@ CMakeFiles/untitled1.dir/main.c.obj: \
  C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\moves.h \
  C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\loc.h \
  C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\tree.h \
+ C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\stack.h \
+ C:\Users\gabby\CLionProjects\Projet_RoverRun_GroupeA11\node.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.6/bin/mingw/x86_64-w64-mingw32/include/windows.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.6/bin/mingw/x86_64-w64-mingw32/include/sdkddkver.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.6/bin/mingw/x86_64-w64-mingw32/include/excpt.h \

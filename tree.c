@@ -7,21 +7,6 @@
 #include <stdio.h>
 #include <time.h>
 
-t_node* create_node(t_move mvt_for_access, int cost, int nb_children)
-{
-    t_node* new_node = (t_node*)malloc(sizeof(t_node));
-    if (new_node == NULL)
-    {
-        printf("Erreur d'allocation mémoire pour un nœud\n");
-        return NULL;
-    }
-    // Initialisation des valeurs du nœud
-    new_node->mvt_for_access = mvt_for_access;
-    new_node->cost = cost;
-    new_node->num_children = 0;
-    new_node->children = (t_node**) malloc(nb_children*sizeof(t_node*));
-    return new_node;
-}
 
 t_tree* allocate_tree(int nb_movements)
 {
@@ -132,46 +117,42 @@ t_node* getMinRec(t_tree* tree){
     {
         return NULL;
     }
-    t_node i_node;
-    i_node.cost = 15000;// On crée un noeud avec un coût très élevé
-    return find_min_cost_node(tree->root,&i_node);
+    t_node* i_node = (t_node*)malloc(sizeof(t_node));
+    if(i_node == NULL){
+        printf("Erreur");
+    }
+    i_node->cost = 15000;// On crée un noeud avec un coût très élevé
+    t_node * result = find_min_cost_node(tree->root,i_node);
+    return result;
 }
 
-t_node** findMinCostPath(t_tree* tree) {
+t_stack findMinCostPath(t_tree* tree) {
     if (tree == NULL || tree->root == NULL) {
         printf("Erreur : arbre ou racine vide.\n");
-        return NULL;
+        return createStack(0);
     }
 
     // Trouver le nœud de coût minimal
     t_node* min_node = getMinRec(tree);
     if (min_node == NULL) {
         printf("Erreur : nœud minimal introuvable.\n");
-        return NULL;
+        return createStack(0); // Retourne une pile vide
     }
 
-    // Calculer la longueur du chemin depuis le nœud minimal jusqu'à la racine
-    int nbMouv = tree->root->num_children;
+    t_node *cur_node = min_node;
+    int nbMouv = tree->root->num_children;//=3
+    t_stack stackMinPath = createStack(nbMouv);
 
-
-    if (nbMouv == 0) {
-        printf("Erreur : aucun chemin trouvé vers la racine.\n");
-        return NULL;
+    while(cur_node!=tree->root){
+        push(&stackMinPath,cur_node->cost);
+        stackMinPath.nbElts++;
+        cur_node =cur_node ->parent;
     }
 
-    // Allocation de la mémoire pour le tableau des nœuds du chemin
-    t_node** pathMinNode = (t_node**)malloc(nbMouv * sizeof(t_node*));
-    if (pathMinNode == NULL) {
-        printf("Erreur : échec d'allocation de mémoire pour le chemin.\n");
-        return NULL;
+    t_stack stackMinPathOrder = createStack(nbMouv);
+    while(isEmptyStack(stackMinPath)!=1){
+        push(&stackMinPathOrder, pop(&stackMinPath));
     }
 
-    // Remplir le tableau pathMinNode avec les nœuds du chemin
-    t_node* cur_node = min_node;
-    for (int i = nbMouv - 1; i >= 0; i--) {
-        pathMinNode[i] = cur_node;
-        cur_node = cur_node->parent;  // Remonte vers le parent
-    }
-
-    return pathMinNode;
+    return stackMinPathOrder; // Pas besoin d'inversion
 }

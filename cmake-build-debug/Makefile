@@ -224,6 +224,30 @@ moves.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/moves.c.s
 .PHONY : moves.c.s
 
+node.obj: node.c.obj
+.PHONY : node.obj
+
+# target to build an object file
+node.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/node.c.obj
+.PHONY : node.c.obj
+
+node.i: node.c.i
+.PHONY : node.i
+
+# target to preprocess a source file
+node.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/node.c.i
+.PHONY : node.c.i
+
+node.s: node.c.s
+.PHONY : node.s
+
+# target to generate assembly for a file
+node.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/node.c.s
+.PHONY : node.c.s
+
 queue.obj: queue.c.obj
 .PHONY : queue.obj
 
@@ -317,6 +341,9 @@ help:
 	@echo ... moves.obj
 	@echo ... moves.i
 	@echo ... moves.s
+	@echo ... node.obj
+	@echo ... node.i
+	@echo ... node.s
 	@echo ... queue.obj
 	@echo ... queue.i
 	@echo ... queue.s

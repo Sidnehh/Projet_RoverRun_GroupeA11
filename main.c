@@ -2,6 +2,7 @@
 #include "map.h"
 #include "tree.h"
 #include "loc.h"
+#include "stack.h"
 #include "moves.h"
 #define NOMINMAX
 #include <Windows.h>
@@ -28,16 +29,14 @@ int main() {
     t_node* min_node = getMinRec(tree);
     printf("Cout min : %d\n",min_node->cost);
 
-    t_node** minPath = findMinCostPath(tree);
-    if (minPath != NULL) {
-        // Afficher le chemin
-        for (int i = 0; i<tree->root->num_children; i++) {
-            printf("Noeud %d - Mouvement: %s, Coût: %d\n", i, getMoveAsString(minPath[i]->mvt_for_access), minPath[i]->cost);
-        }
+    printf("cout racine : \n",tree->root->cost);
 
-        // N'oublie pas de libérer la mémoire après utilisation
-        free(minPath);
-    }
+    t_stack minPath = findMinCostPath(tree);
+    printf("Nb élément chemin %d\n",minPath.nbElts);
+
+    printf("Coût à parcourir pour arriver au noeud minimum: ");
+    displayStack(minPath);
+    printf("\n");
 
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)

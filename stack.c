@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "stack.h"
+#include "stdio.h"
 
 /**
  * @brief Function to create a stack
@@ -60,4 +61,23 @@ int top(t_stack stack)
     // the stack must not be empty
     assert(stack.nbElts > 0);
     return stack.values[stack.nbElts - 1];
+}
+int isEmptyStack(t_stack s)
+{
+    return (s.nbElts == 0);
+}
+
+void displayStack(t_stack s)
+{
+    int size = s.nbElts;
+    if (size==0)
+    {
+        printf("Pas de chemin");
+    }
+    for (int cpt = 0; cpt <size; cpt++)
+    {
+        printf("%d --> ", s.values[cpt]);
+    }
+    printf("\n");
+    return;
 }

@@ -43,6 +43,7 @@ int pop(t_stack *);
  * @return the top value
  */
 int top(t_stack);
-
+int isEmptyStack(t_stack s);
+void displayStack(t_stack s);
 
 #endif //UNTITLED1_STACK_H
