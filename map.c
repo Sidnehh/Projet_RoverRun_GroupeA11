@@ -304,7 +304,7 @@ void displayMap(t_map map)
 
 int checkValidPosition(t_position position, t_map map)
 {
-    if(position.x > map.x_max || position.y > map.y_max || position.x < 0 || position.y < 0)
+    if(position.x >= map.x_max-1 || position.y >= map.y_max-1 || position.x < 0 || position.y < 0)
         return 0;
     return 1;
 }

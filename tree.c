@@ -77,12 +77,14 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
     {
         new_mov = moves[i];
         new_pos = predictLocalisation(curr_loc, new_mov);
-        if(checkValidPosition(new_pos.pos,map))
+        if(checkValidPosition(new_pos.pos,map)==0)
         {
-            temp_node = create_node(new_mov, map.costs[new_pos.pos.x][new_pos.pos.y], nb_children - 1);
-            add_child(parent, temp_node);
-            build_from_node(temp_node, nb_children - 1, new_pos, map);
+            printf("Le robot est mort. \n");
+            return;
         }
+        temp_node = create_node(new_mov, map.costs[new_pos.pos.x][new_pos.pos.y], nb_children - 1);
+        add_child(parent, temp_node);
+        build_from_node(temp_node, nb_children - 1, new_pos, map);
     }
 }
 
