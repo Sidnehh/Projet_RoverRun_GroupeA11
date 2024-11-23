@@ -136,3 +136,42 @@ t_node* getMinRec(t_tree* tree){
     i_node.cost = 15000;// On crée un noeud avec un coût très élevé
     return find_min_cost_node(tree->root,&i_node);
 }
+
+t_node** findMinCostPath(t_tree* tree) {
+    if (tree == NULL || tree->root == NULL) {
+        printf("Erreur : arbre ou racine vide.\n");
+        return NULL;
+    }
+
+    // Trouver le nœud de coût minimal
+    t_node* min_node = getMinRec(tree);
+    if (min_node == NULL) {
+        printf("Erreur : nœud minimal introuvable.\n");
+        return NULL;
+    }
+
+    // Calculer la longueur du chemin depuis le nœud minimal jusqu'à la racine
+    int nbMouv = tree->root->num_children;
+
+
+    if (nbMouv == 0) {
+        printf("Erreur : aucun chemin trouvé vers la racine.\n");
+        return NULL;
+    }
+
+    // Allocation de la mémoire pour le tableau des nœuds du chemin
+    t_node** pathMinNode = (t_node**)malloc(nbMouv * sizeof(t_node*));
+    if (pathMinNode == NULL) {
+        printf("Erreur : échec d'allocation de mémoire pour le chemin.\n");
+        return NULL;
+    }
+
+    // Remplir le tableau pathMinNode avec les nœuds du chemin
+    t_node* cur_node = min_node;
+    for (int i = nbMouv - 1; i >= 0; i--) {
+        pathMinNode[i] = cur_node;
+        cur_node = cur_node->parent;  // Remonte vers le parent
+    }
+
+    return pathMinNode;
+}

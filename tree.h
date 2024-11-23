@@ -58,5 +58,5 @@ t_node* getMinRec(t_tree* tree);
 
 // Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
 void afficher_arbre(t_node* root);
-
+t_node** findMinCostPath(t_tree* tree);
 #endif // UNTITLED1_TREE_H

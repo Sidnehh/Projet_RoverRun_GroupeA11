@@ -24,9 +24,22 @@ int main() {
     start.ori = SOUTH;
     t_tree* tree = create_tree(3, map, start);
     afficher_arbre(tree->root);
-    //t_node* min_node = getMinRec(tree);
-    //printf("Cout min : %d\n",min_node->cost);
-    //printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+
+    t_node* min_node = getMinRec(tree);
+    printf("Cout min : %d\n",min_node->cost);
+
+    t_node** minPath = findMinCostPath(tree);
+    if (minPath != NULL) {
+        // Afficher le chemin
+        for (int i = 0; i<tree->root->num_children; i++) {
+            printf("Noeud %d - Mouvement: %s, Coût: %d\n", i, getMoveAsString(minPath[i]->mvt_for_access), minPath[i]->cost);
+        }
+
+        // N'oublie pas de libérer la mémoire après utilisation
+        free(minPath);
+    }
+
+    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
     {
         for (int j = 0; j < map.x_max; j++)
