@@ -24,9 +24,9 @@ int main() {
     start.ori = SOUTH;
     t_tree* tree = create_tree(3, map, start);
     afficher_arbre(tree->root);
-    t_node* min_node = getMinRec(tree);
-    printf("Cout min : %d\n",min_node->cost);
-    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+    //t_node* min_node = getMinRec(tree);
+    //printf("Cout min : %d\n",min_node->cost);
+    //printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
     {
         for (int j = 0; j < map.x_max; j++)

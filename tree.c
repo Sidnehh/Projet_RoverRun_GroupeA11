@@ -74,14 +74,18 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
     t_move new_mov;
     t_localisation new_pos;
     t_move* moves = getRandomMoves(nb_children);
+    printf("début boucle\n");
     for(int i=0;i<nb_children;i++)
     {
         new_mov = moves[i];
         new_pos = predictLocalisation(curr_loc, new_mov);
         temp_node = create_node(new_mov,map.costs[new_pos.pos.x][new_pos.pos.y], nb_children-1);
+        printf("Noeud créé \n");
         add_child(parent, temp_node);
         build_from_node(temp_node, nb_children-1, new_pos, map);
+        printf("Fonction récursive exécutée\n");
     }
+    printf("fin boucle\n");
 }
 
 // Crée un arbre retraçant les mouvements et coûts possibles par rapport à une carte et la position du Rover
