@@ -29,10 +29,10 @@ int main() {
     t_node* min_node = getMinRec(tree);
     printf("Cout min : %d\n",min_node->cost);
 
-    printf("cout racine : \n",tree->root->cost);
+    printf("cout racine : %d\n",tree->root->cost);
 
     t_stack minPath = findMinCostPath(tree);
-    printf("Nb élément chemin %d\n",minPath.nbElts);
+    //printf("Nb élément chemin %d\n",minPath.nbElts);
 
     printf("Coût à parcourir pour arriver au noeud minimum: ");
     displayStack(minPath);

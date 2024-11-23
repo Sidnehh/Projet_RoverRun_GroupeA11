@@ -139,20 +139,23 @@ t_stack findMinCostPath(t_tree* tree) {
         return createStack(0); // Retourne une pile vide
     }
 
+    // Initialisation de la pile pour le chemin minimal
     t_node *cur_node = min_node;
-    int nbMouv = tree->root->num_children;//=3
-    t_stack stackMinPath = createStack(nbMouv);
+    t_stack stackMinPath = createStack(tree->root->num_children);
 
-    while(cur_node!=tree->root){
-        push(&stackMinPath,cur_node->cost);
-        stackMinPath.nbElts++;
-        cur_node =cur_node ->parent;
+    while (cur_node != tree->root) {
+        push(&stackMinPath, cur_node->cost);
+        cur_node = cur_node->parent;
     }
 
-    t_stack stackMinPathOrder = createStack(nbMouv);
-    while(isEmptyStack(stackMinPath)!=1){
+    push(&stackMinPath, tree->root->cost);
+
+    t_stack stackMinPathOrder = createStack(stackMinPath.nbElts);
+
+    while (!isEmptyStack(stackMinPath)) {
         push(&stackMinPathOrder, pop(&stackMinPath));
     }
 
-    return stackMinPathOrder; // Pas besoin d'inversion
+    return stackMinPathOrder; // Retourne la pile contenant le chemin minimal inversé
 }
+

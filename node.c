@@ -17,6 +17,7 @@ t_node* create_node(t_move mvt_for_access, int cost, int nb_children)
     new_node->mvt_for_access = mvt_for_access;
     new_node->cost = cost;
     new_node->num_children = 0;
+    new_node->parent = NULL;
     new_node->children = (t_node**) malloc(nb_children*sizeof(t_node*));
     return new_node;
 }
