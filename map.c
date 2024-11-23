@@ -301,3 +301,10 @@ void displayMap(t_map map)
     }
     return;
 }
+
+int checkValidPosition(t_position position, t_map map)
+{
+    if(position.x > map.x_max || position.y > map.y_max || position.x < 0 || position.y < 0)
+        return 0;
+    return 1;
+}

@@ -4,7 +4,7 @@
 
 #ifndef UNTITLED1_MAP_H
 #define UNTITLED1_MAP_H
-
+#include "moves.h"
 #define COST_UNDEF 65535
 /**
  * @brief Enum for the possible soils of the map
@@ -54,5 +54,6 @@ t_map createMapFromFile(char *);
  * @param map : the map to display
  */
 void displayMap(t_map);
+int checkValidPosition(t_position position, t_map map);
 
 #endif //UNTITLED1_MAP_H
