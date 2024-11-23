@@ -126,6 +126,39 @@ t_node* getMinRec(t_tree* tree){
     return result;
 }
 
+t_stack findMinCostPath2(t_tree* tree) {
+    if (tree == NULL || tree->root == NULL) {
+        printf("Erreur : arbre ou racine vide.\n");
+        return createStack(0);
+    }
+
+    // Trouver le nœud de coût minimal
+    t_node* min_node = getMinRec(tree);
+    if (min_node == NULL) {
+        printf("Erreur : nœud minimal introuvable.\n");
+        return createStack(0); // Retourne une pile vide
+    }
+
+    // Initialisation de la pile pour le chemin minimal
+    t_node *cur_node = min_node;
+    t_stack stackMinPath = createStack(tree->root->mvt_for_access);
+
+    while (cur_node != tree->root) {
+        push(&stackMinPath, cur_node->mvt_for_access);
+        cur_node = cur_node->parent;
+    }
+
+    push(&stackMinPath, tree->root->mvt_for_access);
+
+    t_stack stackMinPathOrder = createStack(stackMinPath.nbElts);
+
+    while (!isEmptyStack(stackMinPath)) {
+        push(&stackMinPathOrder, pop(&stackMinPath));
+    }
+
+    return stackMinPathOrder; // Retourne la pile contenant le chemin minimal inversé
+}
+
 t_stack findMinCostPath(t_tree* tree) {
     if (tree == NULL || tree->root == NULL) {
         printf("Erreur : arbre ou racine vide.\n");
@@ -158,4 +191,9 @@ t_stack findMinCostPath(t_tree* tree) {
 
     return stackMinPathOrder; // Retourne la pile contenant le chemin minimal inversé
 }
+
+
+
+
+
 

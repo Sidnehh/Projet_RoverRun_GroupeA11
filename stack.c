@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "stack.h"
+#include "moves.h"
 #include "stdio.h"
 
 /**
@@ -77,6 +78,21 @@ void displayStack(t_stack s)
     for (int cpt = 0; cpt <size; cpt++)
     {
         printf("%d --> ", s.values[cpt]);
+    }
+    printf("\n");
+    return;
+}
+
+void displayStack2(t_stack s)
+{
+    int size = s.nbElts;
+    if (size==0)
+    {
+        printf("Pas de chemin");
+    }
+    for (int cpt = 0; cpt <size; cpt++)
+    {
+        printf("%s --> ", getMoveAsString(s.values[cpt]));
     }
     printf("\n");
     return;

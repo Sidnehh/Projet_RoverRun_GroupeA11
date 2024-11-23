@@ -18,6 +18,8 @@ CMakeFiles/untitled1.dir/stack.c.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/errno.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/assert.h \
  C:\Users\Sidne\OneDrive\Bureau\Projet_RoverRun_GroupeA11\stack.h \
+ C:\Users\Sidne\OneDrive\Bureau\Projet_RoverRun_GroupeA11\moves.h \
+ C:\Users\Sidne\OneDrive\Bureau\Projet_RoverRun_GroupeA11\loc.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/stdio.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.3/bin/mingw/x86_64-w64-mingw32/include/_mingw_off_t.h \

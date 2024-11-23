@@ -12,8 +12,6 @@
 
 // Définition d'un nœud dans l'arbre, représentant un mouvement spécifique
 
-
-
 // Définition de la structure de l'arbre 
 typedef struct s_tree
 {
@@ -51,4 +49,5 @@ t_node* getMinRec(t_tree* tree);
 // Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
 void afficher_arbre(t_node* root);
 t_stack findMinCostPath(t_tree* tree);
+t_stack findMinCostPath2(t_tree* tree);
 #endif // UNTITLED1_TREE_H
