@@ -97,3 +97,13 @@ void displayStack2(t_stack s)
     printf("\n");
     return;
 }
+
+t_stack reverseStack(t_stack stack)
+{
+    t_stack new_stack = createStack(stack.nbElts);
+    while(stack.nbElts>0)
+    {
+        push(&new_stack, pop(&stack));
+    }
+    return new_stack;
+}

@@ -141,7 +141,7 @@ t_stack findMinCostPath2(t_tree* tree) {
 
     // Initialisation de la pile pour le chemin minimal
     t_node *cur_node = min_node;
-    t_stack stackMinPath = createStack(tree->root->mvt_for_access);
+    t_stack stackMinPath = createStack(tree->root->num_children);
 
     while (cur_node != tree->root) {
         push(&stackMinPath, cur_node->mvt_for_access);

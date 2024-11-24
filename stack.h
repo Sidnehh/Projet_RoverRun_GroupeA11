@@ -46,5 +46,6 @@ int top(t_stack);
 int isEmptyStack(t_stack s);
 void displayStack(t_stack s);
 void displayStack2(t_stack s);
+t_stack reverseStack(t_stack s);
 
 #endif //UNTITLED1_STACK_H

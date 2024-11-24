@@ -40,7 +40,7 @@ int graphic()
     robotpos.pos.x = 0;
     robotpos.pos.y = 0;
     robotpos.ori = SOUTH;
-    int movements = 4;
+    int movements = 7;
     int i;
     t_tree* tree = create_tree(movements,map,robotpos);
     t_stack path = findMinCostPath2(tree);
@@ -55,14 +55,13 @@ int graphic()
         {
             for(int j=0;j<map.x_max;j++)
             {
-                DrawRectangle(robotpos.pos.x, robotpos.pos.y, 40, 40, BLACK);
                 DrawRectangle(50+i*100, 10+j*100, 80, 80, GetColorFromPos(j,i,map));
             }
         }
-        for(i=0;i<movements;i++)
-        {
+
+        DrawRectangle(50+robotpos.pos.x*100, 10+robotpos.pos.y*100, 40, 40, BLACK);
+        if(path.nbElts>0)
             updateLocalisation(&robotpos, pop(&path));
-        }
         // Fin du dessin
         EndDrawing();
     }

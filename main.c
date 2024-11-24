@@ -26,11 +26,11 @@ int main()
     start.ori = SOUTH;
     t_tree* tree = create_tree(4, map, start);
     t_node* min_node = getMinRec(tree);
-    printf("Cout min : %d\n",min_node->cost);
-    printf("cout racine : %d\n",tree->root->cost);
     t_stack minPath = findMinCostPath(tree);
+    /*printf("Cout min : %d\n",min_node->cost);
+    printf("cout racine : %d\n",tree->root->cost);
     printf("Nb element chemin %d\n",minPath.nbElts);
-    printf("Cout a parcourir pour arriver au noeud minimum: ");
+    printf("Cout a parcourir pour arriver au noeud minimum: ");*/
     displayStack2(minPath);
     printf("\n");
 
