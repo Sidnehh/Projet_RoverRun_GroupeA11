@@ -27,6 +27,12 @@ typedef enum e_move
     U_TURN
 } t_move;
 
+typedef struct move_proba
+{
+    t_move move;
+    int prob;
+}t_move_proba;
+
 /**
  * @brief function to get a t_move as a string
  * @param move : the move to convert
@@ -48,6 +54,12 @@ t_localisation move(t_localisation, t_move);
  * @param move : the move to do
  * @return none
  */
-void updateLocalisation(t_localisation *, t_move);
 
+t_localisation translate(t_localisation , t_move);
+
+/* definition of local functions */
+
+void updateLocalisation(t_localisation *, t_move);
+t_localisation predictLocalisation(t_localisation p_loc, t_move m);
+t_move *getRandomMoves(int N); // non utilisée car pas optimale
 #endif //UNTITLED1_MOVES_H
