@@ -6,6 +6,148 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
+
+
+
+void add_child(t_node* parent, t_node* child)
+{
+    if(parent == NULL || child == NULL)
+    {
+        printf("Erreur : L'enfant ou le parent est invalide");
+        return;
+    }
+    //ajouter condition
+    parent->children[parent->num_children] = child;
+    parent->num_children++;
+    child->parent = parent;
+}
+t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position, t_map map) {
+    t_soil current_soil = map.soils[current_position.y][current_position.x];
+
+    switch (current_soil) {
+        case CREVASSE:
+            return -2; // Indique la mort de MARC
+
+        case ERG:
+            if (chosen_move == F_10 || chosen_move == B_10) {
+                return -1;
+            } else if (chosen_move == F_20) {
+                return F_10;
+            } else if (chosen_move == F_30) {
+                return F_20;
+            } else if (chosen_move == T_LEFT || chosen_move == T_RIGHT) {
+                return U_TURN;
+            }
+            break;
+
+        case REG:
+            break; // Limite déjà gérée dans build_from_node
+
+        default:
+            break;
+    }
+
+    return chosen_move; // Si aucun ajustement n'est nécessaire
+}
+
+void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves) {
+    if (parent == NULL || nb_children <= 0 || total_moves <= 0) {
+        printf("Conditions d'arrêt atteintes : nb_children=%d, total_moves=%d\n", nb_children, total_moves);
+        return;
+    }
+
+    t_node *temp_node;
+    t_move new_mov;
+    t_localisation new_pos;
+    int created_children = 0; // Compteur pour le nombre d'enfants valides créés
+
+    for (int i = 0; i < nb_children; i++) {
+        if (total_moves <= 0) {
+            printf("Aucun mouvement restant. Arrêt pour cet enfant.\n");
+            return;
+        }
+
+        // Étape 1 : Tirage aléatoire d’un mouvement
+        int r = rand() % total_moves;
+        int type = 0;
+
+        while (r >= branch_moves[type]) {
+            r -= branch_moves[type];
+            type++;
+        }
+
+        new_mov = (t_move)type;
+
+        // Calculer la nouvelle position après le mouvement
+        new_pos = predictLocalisation(curr_loc, new_mov);
+
+        // Vérification : si la position est invalide ou hors des limites
+        if (!isValidLocalisation(new_pos.pos, map.x_max, map.y_max)) {
+            continue;
+        }
+
+        // Ajuster le mouvement en fonction du terrain actuel
+        new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
+        int is_static = 0;
+
+        if (new_mov == -1) {
+            is_static = 1; // Le nœud sera marqué comme statique
+            new_mov = F_10; // Mouvement par défaut neutre
+        }
+        if (new_mov == -2) {
+            continue; // Passe à l'enfant suivant, le rover est mort car tombé dans une crevasse
+        }
+
+        // Gestion du terrain Reg
+        int next_nb_children = nb_children - 1; // Variable temporaire pour limiter les enfants
+        if (map.soils[new_pos.pos.y][new_pos.pos.x] == REG) {
+            if (nb_children > 5) {
+                next_nb_children = 5;
+            } else {
+                next_nb_children = nb_children - 1;
+            }
+        }
+
+
+
+        // Récupérer le coût de la position
+        int cost;
+        if (is_static) {
+            cost = parent->cost;
+        } else {
+            cost = map.costs[new_pos.pos.y][new_pos.pos.x];
+        }
+
+        // Créer un enfant
+        temp_node = create_node(new_mov, cost, next_nb_children);
+        if (temp_node == NULL) {
+            continue;
+        }
+
+        // Ajouter l’enfant au parent
+        add_child(parent, temp_node);
+        created_children++;
+
+        // Vérifie si le nombre maximum d'enfants est atteint
+        if (created_children >= nb_children) {
+            break; // Tous les enfants nécessaires ont été créés
+        }
+
+        // Préparer une copie propre pour la récursivité
+        int child_branch_moves[7];
+        memcpy(child_branch_moves, branch_moves, sizeof(int) * 7);
+        if (!is_static) {
+            child_branch_moves[type]--;
+            total_moves--;
+        }
+
+        // Appel récursif avec la copie propre
+        build_from_node(temp_node, next_nb_children, new_pos, map, child_branch_moves, total_moves);
+    }
+}
+
+
 
 
 t_tree* allocate_tree(int nb_movements)
@@ -35,50 +177,15 @@ t_tree* allocate_tree(int nb_movements)
     return tree;
 }
 
-void add_child(t_node* parent, t_node* child)
-{
-    if(parent == NULL || child == NULL)
-    {
-        printf("Erreur : L'enfant ou le parent est invalide");
-        return;
-    }
-    parent->children[parent->num_children] = child;
-    parent->num_children++;
-    child->parent = parent;
-}
-
-//Crée une structure de n enfants à un noeud
-void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map)
-{
-    if (parent==NULL)
-    {
-        return;
-    }
-    t_node *temp_node;
-    t_move new_mov;
-    t_localisation new_pos;
-    t_move* moves = getRandomMoves(nb_children);
-    for(int i=0;i<nb_children;i++)
-    {
-        new_mov = moves[i];
-        new_pos = predictLocalisation(curr_loc, new_mov);
-        if(checkValidPosition(new_pos.pos,map)==0)
-        {
-            printf("Le robot est mort. \n");
-            return;
-        }
-        temp_node = create_node(new_mov, map.costs[new_pos.pos.x][new_pos.pos.y], nb_children - 1);
-        add_child(parent, temp_node);
-        build_from_node(temp_node, nb_children - 1, new_pos, map);
-    }
-}
 
 // Crée un arbre retraçant les mouvements et coûts possibles par rapport à une carte et la position du Rover
 t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc)
 {
     t_tree *p_tree = allocate_tree(nb_movements);
     p_tree->root->cost = map.costs[start_loc.pos.x][start_loc.pos.y];
-    build_from_node(p_tree->root,nb_movements,start_loc,map);
+    int nbmoves[] ={21,15,7,7,21,21,7}; // commencer avec un tabkeau décrémenté avec le mouvement
+    // de la racine déjà pioché qui vaut F_10
+    build_from_node(p_tree->root,nb_movements,start_loc,map, nbmoves, 99);
     return p_tree;
 }
 
@@ -97,6 +204,21 @@ void afficher_arbre(t_node* root)
     {
         afficher_arbre(root->children[i]);
     }
+}
+
+void free_tree(t_node* root)
+{
+    if (root==NULL)
+        return;
+
+    int nb_enfants = root->num_children;
+    int i;
+    for(i=0;i<nb_enfants;i++)
+    {
+        free_tree(root->children[i]);
+    }
+    free(root->children);
+    free(root);
 }
 
 t_node* find_min_cost_node(t_node* cur_node, t_node* min_node){

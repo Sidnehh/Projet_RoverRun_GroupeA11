@@ -29,15 +29,24 @@ t_stack createStack(int size)
  * @param value : the value to push
  * @return none
  */
-void push(t_stack *p_stack, int value)
-{
-    // the stack must not be full
-    assert(p_stack->nbElts < p_stack->size);
+
+void resize_stack(t_stack *p_stack) {
+    int new_size = p_stack->size * 2; // Double la taille de la pile
+    p_stack->values = (int *)realloc(p_stack->values, new_size * sizeof(int));
+    if (p_stack->values == NULL) {
+        printf("Erreur : impossible de redimensionner la pile.\n");
+        exit(EXIT_FAILURE);
+    }
+    p_stack->size = new_size;
+    printf("Pile redimensionnée à %d éléments.\n", new_size);
+}
+void push(t_stack *p_stack, int value) {
+    if (p_stack->nbElts >= p_stack->size) {
+        resize_stack(p_stack); // Redimensionne si nécessaire
+    }
     p_stack->values[p_stack->nbElts] = value;
     p_stack->nbElts++;
-    return;
 }
-
 /**
  * @brief Function to pop a value from the stack
  * @param stack : the stack

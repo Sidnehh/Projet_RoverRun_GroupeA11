@@ -19,5 +19,12 @@ t_node* create_node(t_move mvt_for_access, int cost, int nb_children)
     new_node->num_children = 0;
     new_node->parent = NULL;
     new_node->children = (t_node**) malloc(nb_children*sizeof(t_node*));
+    if (new_node->children==NULL)
+    {
+        printf("Erreur d'allocation en mémoire");
+        free(new_node);
+        return NULL;
+    }
     return new_node;
 }
+
