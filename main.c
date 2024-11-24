@@ -59,7 +59,7 @@ int main() {
            (double)(end_time - start_time) / CLOCKS_PER_SEC);
 
     // Libération de la mémoire
-    printf("\nLibération de la mémoire...\n");
+    printf("\n Libération de la mémoire...\n");
     start_time = clock();
     free_tree(tree);
     end_time = clock();
