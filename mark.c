@@ -7,10 +7,10 @@
 
 t_localisation ExecutePhase(t_localisation start_pos, t_map map, int nb_movements)
 {
-    printf("Début de la phase ! Il est en %d,%d, orienté %d\n", start_pos.pos.x, start_pos.pos.y, start_pos.ori);
     t_tree* tree = create_tree(nb_movements, map, start_pos);
     t_stack path = findMinCostPath(tree);
     t_move curr_mov;
+    printf("Début de la phase ! Il est en %d,%d, orienté %d\n", start_pos.pos.x, start_pos.pos.y, start_pos.ori);
     for(int i = 0; i<nb_movements; i++)
     {
         curr_mov = pop(&path);
@@ -23,6 +23,7 @@ t_localisation ExecutePhase(t_localisation start_pos, t_map map, int nb_movement
 
 void MarcFullTravel(t_localisation start_pos, t_map map)
 {
+    printf("Marc commence son aventure !\n");
     int nb_phases = 0;
     while(map.costs[start_pos.pos.x][start_pos.pos.y] != 0)
     {

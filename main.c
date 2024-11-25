@@ -29,12 +29,12 @@ int main() {
     start_loc.pos.y = 0;
     start_loc.ori = SOUTH;
 
-    MarcFullTravel(start_loc, map);
+    //MarcFullTravel(start_loc, map);
 
-    /*// Chronométrer la construction de l'arbre
+    // Chronométrer la construction de l'arbre
     printf("\nConstruction de l'arbre de mouvements...\n");
     clock_t start_time = clock();
-    t_tree* tree = create_tree( 59, map, start_loc); // Exemple avec 3 mouvements
+    t_tree* tree = create_tree( 10  , map, start_loc); // Exemple avec 3 mouvements
     clock_t end_time = clock();
     printf("Temps pour construire l'arbre : %.4f secondes\n",(double)(end_time - start_time) / CLOCKS_PER_SEC);
 
@@ -67,7 +67,7 @@ int main() {
     free_tree(tree);
     end_time = clock();
     printf("Temps pour libérer la mémoire : %.4f secondes\n",
-           (double)(end_time - start_time) / CLOCKS_PER_SEC);*/
+           (double)(end_time - start_time) / CLOCKS_PER_SEC);
 
 
     return 0;

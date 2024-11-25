@@ -48,29 +48,25 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
 }
 
 
-
-void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves) {
+void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves)
+{
     // Vérifications initiales
-    if (parent == NULL || nb_children <= 0 || total_moves <= 0) {
+    if (parent == NULL)
+    {
         printf("Conditions d'arrêt globales atteintes pour (%d, %d). Enfants restants : %d, Mouvements disponibles : %d.\n",
                curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
         return;
     }
-
     printf("Construction pour parent (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
            curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
-
     // Boucle sur les enfants à créer
-    for (int i = 0; i < nb_children; i++) {
-        if (total_moves <= 0) {
-            printf("Plus de mouvements disponibles. Arrêt pour cet enfant.\n");
-            return;
-        }
-
+    for (int i = 0; i < nb_children; i++)
+    {
         // Tirage aléatoire d’un mouvement
         int r = rand() % total_moves;
         int type = 0;
-        while (r >= branch_moves[type]) {
+        while (r >= branch_moves[type])
+        {
             r -= branch_moves[type];
             type++;
         }
@@ -78,18 +74,13 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
         t_move new_mov = (t_move)type;
         t_localisation new_pos = predictLocalisation(curr_loc, new_mov);
 
-        // Vérification de la position
-        if (!isValidLocalisation(new_pos.pos, map.x_max, map.y_max)) {
-            printf("Position invalide (%d, %d). Pas de nœud créé.\n", new_pos.pos.x, new_pos.pos.y);
-        }
-
         // Ajustement du mouvement en fonction du terrain
         new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
-        if (new_mov == -2) {
+        if (new_mov == -2)
+        {
             printf("MARC est tombé dans une crevasse. Pas de nœud créé.\n");
             continue;
         }
-
         else if (new_mov == STILL)
         {
             printf("Mouvement inutilisable, Marc reste immobile\n");
@@ -97,45 +88,34 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
 
         // Récupération du coût
         int cost = map.costs[new_pos.pos.y][new_pos.pos.x];
-        // Gestion des enfants et coût
-        int effective_nb_children = nb_children; // Isolation de nb_children pour ce nœud
 
-
-        // Création du nœud enfant
-        t_node* child = create_node(new_mov, cost, effective_nb_children - 1);
-        if (child == NULL)
-        {
         // Création et ajout de l'enfant
-        t_node* child = create_node(new_mov, cost, nb_children - 1); // Utilisation de nb_children - 1 ici pour limiter la profondeur
-        if (child == NULL) {
-            printf("Erreur : Impossible de créer un enfant.\n");
-            continue;
-        }
-        if (new_mov != -2 && child!=NULL && isValidLocalisation(new_pos.pos, map.x_max, map.y_max))
+        if(checkValidPosition(curr_loc.pos, map))
         {
-            add_child(parent, child);
-            int child_branch_moves[7];
-            memcpy(child_branch_moves, branch_moves, sizeof(int) * 7);
-            child_branch_moves[type]--;
+            t_node* child = create_node(new_mov, cost, nb_children - 1); // Utilisation de nb_children - 1 ici pour limiter la profondeur
+            if (child == NULL)
+            {
+                printf("Erreur : Impossible de créer un enfant.\n");
+                continue;
+            }
+            if (isValidLocalisation(new_pos.pos, map.x_max, map.y_max))
+            {
+                add_child(parent, child);
+                int child_branch_moves[7];
+                memcpy(child_branch_moves, branch_moves, sizeof(int) * 7);
+                child_branch_moves[type]--;
 
-            int updated_total_moves = total_moves - 1;
+                printf("Appel récursif pour enfant (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
+                       new_pos.pos.x, new_pos.pos.y, nb_children - 1, total_moves - 1);
 
-            printf("Appel récursif pour enfant (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
-                   new_pos.pos.x, new_pos.pos.y, nb_children - 1, updated_total_moves);
-
-            // Appel récursif
-            build_from_node(child, nb_children - 1, new_pos, map, child_branch_moves, updated_total_moves);
+                // Appel récursif
+                build_from_node(child, nb_children - 1, new_pos, map, child_branch_moves, total_moves - 1);
+            }
         }
-
     }
-
     printf("Création terminée pour ce parent (%d, %d). Enfants créés : %d\n",
            curr_loc.pos.x, curr_loc.pos.y, parent->num_children);
 }
-
-
-
-
 
 t_tree* allocate_tree(int nb_movements)
 {
@@ -228,7 +208,8 @@ t_node* getMinRec(t_tree* tree)
         return NULL;
     }
     t_node* i_node = (t_node*)malloc(sizeof(t_node));
-    if(i_node == NULL){
+    if(i_node == NULL)
+    {
         printf("Erreur");
     }
     i_node->cost = 15000;// On crée un noeud avec un coût très élevé
