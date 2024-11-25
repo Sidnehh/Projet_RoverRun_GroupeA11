@@ -46,36 +46,31 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
     return chosen_move; // Si aucun ajustement n'est nécessaire
 }
 
-void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves)
+void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map)
 {
-    if(parent == NULL)
+    if (parent==NULL)
+    {
         return;
-
-    int i;
-    t_localisation new_loc;
-    t_move* moves = getRandomMoves(nb_children);
-
-    for(i=0; i<nb_children;i++)
-    {
-        t_move new_mov = moves[i];
-        new_loc = predictLocalisation(curr_loc, new_mov);
-        if (checkValidPosition(new_loc.pos, map))
-        {
-            t_node* new_node = create_node(new_mov, map.costs[new_loc.pos.x][new_loc.pos.y], nb_children-1);
-            add_child(parent, new_node);
-        }
     }
-    for (i = 0; i < parent->num_children; i++)
+    t_node *temp_node;
+    t_move new_mov;
+    t_localisation new_pos;
+    t_move* moves = getRandomMoves(nb_children);
+    for(int i=0;i<nb_children;i++)
     {
-        if (parent->children[i] != NULL)
+        new_mov = moves[i];
+        new_pos = predictLocalisation(curr_loc, new_mov);
+        new_mov = adjustMoveBasedOnTerrain(new_mov, new_pos.pos, map);
+        if(checkValidPosition(new_pos.pos,map)==0)
         {
-            new_loc = predictLocalisation(curr_loc, parent->children[i]->mvt_for_access);
-            if(parent->num_children>0)
-                build_from_node(parent->children[i],parent->children[i]->max_children, new_loc, map, branch_moves, total_moves);
+            printf("Le robot est mort. \n");
+            return;
         }
+        temp_node = create_node(new_mov, map.costs[new_pos.pos.x][new_pos.pos.y], nb_children - 1, parent->depth+1);
+        add_child(parent, temp_node);
+        build_from_node(temp_node, nb_children - 1, new_pos, map);
     }
 }
-
 t_tree* allocate_tree(int nb_movements)
 {
     // Allocation de la mémoire pour la structure de l'arbre
@@ -87,8 +82,9 @@ t_tree* allocate_tree(int nb_movements)
     }
 
     // Création et allocation de la racine de l'arbre
-    tree->root = create_node(F_10,0,nb_movements);
-    if (tree->root == NULL) {
+    tree->root = create_node(F_10,0,nb_movements,0);
+    if (tree->root == NULL)
+    {
         printf("Erreur : Impossible d'initialiser la racine.\n");
         free(tree);
         return NULL;
@@ -111,7 +107,7 @@ t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc)
     p_tree->root->cost = map.costs[start_loc.pos.x][start_loc.pos.y];
     int nbmoves[] ={21,15,7,7,21,21,7}; // commencer avec un tabkeau décrémenté avec le mouvement
     // de la racine déjà pioché qui vaut F_10
-    build_from_node(p_tree->root,nb_movements,start_loc,map, nbmoves, 100);
+    build_from_node(p_tree->root,nb_movements,start_loc,map);
     return p_tree;
 }
 

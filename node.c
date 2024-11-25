@@ -5,7 +5,7 @@
 #include "node.h"
 #include <stdlib.h>
 #include <stdio.h>
-t_node* create_node(t_move mvt_for_access, int cost, int nb_children)
+t_node* create_node(t_move mvt_for_access, int cost, int nb_children, int depth)
 {
     t_node* new_node = (t_node*)malloc(sizeof(t_node));
     if (new_node == NULL)
@@ -17,6 +17,7 @@ t_node* create_node(t_move mvt_for_access, int cost, int nb_children)
     new_node->max_children = nb_children;
     new_node->mvt_for_access = mvt_for_access;
     new_node->cost = cost;
+    new_node->depth = depth;
     new_node->num_children = 0;
     new_node->parent = NULL;
     new_node->children = (t_node**) malloc(nb_children*sizeof(t_node*));

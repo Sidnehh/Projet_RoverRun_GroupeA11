@@ -14,7 +14,7 @@ typedef struct s_node
     int cost;                     // Coût associé pour atteindre cette position
     int max_children;
     int num_children;             // Nombre d'enfants actuels (utile pour les parcours)
-
+    int depth;
 } t_node;
-t_node* create_node(t_move mvt_for_access, int cost, int nb_children);
+t_node* create_node(t_move mvt_for_access, int cost, int nb_children, int depth);
 #endif //UNTITLED1_NODE_H
