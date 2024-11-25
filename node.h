@@ -12,7 +12,9 @@ typedef struct s_node
     t_move mvt_for_access;        // Mouvement effectué pour atteindre cette position
 
     int cost;                     // Coût associé pour atteindre cette position
+    int max_children;
     int num_children;             // Nombre d'enfants actuels (utile pour les parcours)
+
 } t_node;
 t_node* create_node(t_move mvt_for_access, int cost, int nb_children);
 #endif //UNTITLED1_NODE_H

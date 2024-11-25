@@ -34,7 +34,7 @@ int main() {
     // Chronométrer la construction de l'arbre
     printf("\nConstruction de l'arbre de mouvements...\n");
     clock_t start_time = clock();
-    t_tree* tree = create_tree( 10  , map, start_loc); // Exemple avec 3 mouvements
+    t_tree* tree = create_tree( 9  , map, start_loc); // Exemple avec 3 mouvements
     clock_t end_time = clock();
     printf("Temps pour construire l'arbre : %.4f secondes\n",(double)(end_time - start_time) / CLOCKS_PER_SEC);
 
@@ -64,7 +64,7 @@ int main() {
     // Libération de la mémoire
     printf("\n Libération de la mémoire...\n");
     start_time = clock();
-    free_tree(tree);
+    free_tree(tree->root);
     end_time = clock();
     printf("Temps pour libérer la mémoire : %.4f secondes\n",
            (double)(end_time - start_time) / CLOCKS_PER_SEC);

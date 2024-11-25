@@ -9,8 +9,6 @@
 #include <string.h>
 #include "map.h"
 
-
-
 void add_child(t_node* parent, t_node* child)
 {
     if(parent == NULL || child == NULL)
@@ -50,29 +48,31 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
 
 void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves)
 {
+    if(parent == NULL)
+        return;
+
     int i;
-    t_node* temp;
     t_localisation new_loc;
+    t_move* moves = getRandomMoves(nb_children);
 
     for(i=0; i<nb_children;i++)
     {
-
-        t_move new_mov = GetRandomMove(branch_moves, total_moves);
-        branch_moves[new_mov]--;
-        total_moves--;
-        new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
+        t_move new_mov = moves[i];
         new_loc = predictLocalisation(curr_loc, new_mov);
-
-        if(checkValidPosition(new_loc.pos,map))
+        if (checkValidPosition(new_loc.pos, map))
         {
-            temp = create_node(new_mov, map.costs[new_loc.pos.x][new_loc.pos.y],nb_children-1);
-            add_child(parent,temp);
+            t_node* new_node = create_node(new_mov, map.costs[new_loc.pos.x][new_loc.pos.y], nb_children-1);
+            add_child(parent, new_node);
         }
     }
-    for(i=0; i<nb_children; i++)
+    for (i = 0; i < parent->num_children; i++)
     {
-        new_loc = predictLocalisation(curr_loc, parent->children[i]->mvt_for_access);
-        build_from_node(parent->children[i], nb_children-1, new_loc, map, branch_moves, total_moves);
+        if (parent->children[i] != NULL)
+        {
+            new_loc = predictLocalisation(curr_loc, parent->children[i]->mvt_for_access);
+            if(parent->num_children>0)
+                build_from_node(parent->children[i],parent->children[i]->max_children, new_loc, map, branch_moves, total_moves);
+        }
     }
 }
 

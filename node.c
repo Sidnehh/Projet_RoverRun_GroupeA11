@@ -14,6 +14,7 @@ t_node* create_node(t_move mvt_for_access, int cost, int nb_children)
         return NULL;
     }
     // Initialisation des valeurs du nœud
+    new_node->max_children = nb_children;
     new_node->mvt_for_access = mvt_for_access;
     new_node->cost = cost;
     new_node->num_children = 0;
