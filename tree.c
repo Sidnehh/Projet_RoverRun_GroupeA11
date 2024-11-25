@@ -18,7 +18,7 @@ void add_child(t_node* parent, t_node* child)
         printf("Erreur : L'enfant ou le parent est invalide");
         return;
     }
-    //ajouter condition
+
     parent->children[parent->num_children] = child;
     parent->num_children++;
     child->parent = parent;
@@ -48,30 +48,31 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
     return chosen_move; // Si aucun ajustement n'est nécessaire
 }
 
-void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int proba_moves[], int total_proba)
+void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves)
 {
-    if (parent==NULL)
+    int i;
+    t_node* temp;
+    t_localisation new_loc;
+
+    for(i=0; i<nb_children;i++)
     {
-        return;
-    }
 
-    t_node *temp_node;
-    t_move new_mov;
-    t_localisation new_pos;
-    t_move* moves = getRandomMoves(nb_children);
+        t_move new_mov = GetRandomMove(branch_moves, total_moves);
+        branch_moves[new_mov]--;
+        total_moves--;
+        new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
+        new_loc = predictLocalisation(curr_loc, new_mov);
 
-    for(int i=0;i<nb_children;i++)
-    {
-        new_pos = predictLocalisation(curr_loc, new_mov);
-        new_mov = adjustMoveBasedOnTerrain(new_mov = moves[i],new_pos.pos,map);
-
-        if(checkValidPosition(new_pos.pos,map))
+        if(checkValidPosition(new_loc.pos,map))
         {
-            temp_node = create_node(new_mov, map.costs[new_pos.pos.x][new_pos.pos.y], nb_children - 1);
-            add_child(parent, temp_node);
-            build_from_node(temp_node, nb_children - 1, new_pos, map, );
+            temp = create_node(new_mov, map.costs[new_loc.pos.x][new_loc.pos.y],nb_children-1);
+            add_child(parent,temp);
         }
-
+    }
+    for(i=0; i<nb_children; i++)
+    {
+        new_loc = predictLocalisation(curr_loc, parent->children[i]->mvt_for_access);
+        build_from_node(parent->children[i], nb_children-1, new_loc, map, branch_moves, total_moves);
     }
 }
 

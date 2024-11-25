@@ -201,3 +201,15 @@ t_move *getRandomMoves(int N)
     }
     return moves;
 }
+
+t_move GetRandomMove(int liste_mouvements[], int total_mouvements)
+{
+    int r = rand() % total_mouvements;
+    int type = 0;
+    while (r >= liste_mouvements[type])
+    {
+        r -= liste_mouvements[type];
+        type++;
+    }
+    return (t_move)type;
+}
