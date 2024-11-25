@@ -142,6 +142,18 @@ char *getMoveAsString(t_move move)
     return _moves[move];
 }
 
+t_move select_random_move(int branch_moves[], int total_moves) {
+    int r = rand() % total_moves;
+    int type = 0;
+
+    while (r >= branch_moves[type]) {
+        r -= branch_moves[type];
+        type++;
+    }
+
+    return (t_move)type;
+}
+
 t_localisation move(t_localisation loc, t_move move)
 {
     t_localisation new_loc=loc;

@@ -61,5 +61,6 @@ t_localisation translate(t_localisation , t_move);
 
 void updateLocalisation(t_localisation *, t_move);
 t_localisation predictLocalisation(t_localisation p_loc, t_move m);
+t_move select_random_move(int branch_moves[], int total_moves);
 t_move *getRandomMoves(int N); // non utilisée car pas optimale
 #endif //UNTITLED1_MOVES_H

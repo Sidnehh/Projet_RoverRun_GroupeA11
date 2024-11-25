@@ -51,101 +51,90 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
     return chosen_move; // Si aucun ajustement n'est nécessaire
 }
 
+
+
 void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves) {
-    if (parent == NULL || nb_children <= 0 || total_moves <= 0) {
-        printf("Conditions d'arrêt atteintes : nb_children=%d, total_moves=%d\n", nb_children, total_moves);
+    // Conditions d'arrêt globales
+    if (parent == NULL) {
+        printf("Conditions d'arrêt globales atteintes. Fin de la récursivité.\n");
         return;
     }
 
-    t_node *temp_node;
-    t_move new_mov;
-    t_localisation new_pos;
-    int created_children = 0; // Compteur pour le nombre d'enfants valides créés
+    printf("Construction pour parent à (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
+           curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
 
+    // Boucle sur les enfants à créer
     for (int i = 0; i < nb_children; i++) {
         if (total_moves <= 0) {
-            printf("Aucun mouvement restant. Arrêt pour cet enfant.\n");
-            return;
+            printf("Plus de mouvements disponibles. Arrêt.\n");
+            break;
         }
 
-        // Étape 1 : Tirage aléatoire d’un mouvement
+        // Étape 1 : Création d'une copie locale des mouvements disponibles
+        int local_branch_moves[7];
+        memcpy(local_branch_moves, branch_moves, sizeof(int) * 7);
+        int local_total_moves = total_moves; // Copie locale de total_moves
+
+        // Sélection du mouvement
         int r = rand() % total_moves;
         int type = 0;
-
         while (r >= branch_moves[type]) {
             r -= branch_moves[type];
             type++;
         }
 
-        new_mov = (t_move)type;
+        t_move new_mov = (t_move)type;
+        t_localisation new_pos = predictLocalisation(curr_loc, new_mov);
 
-        // Calculer la nouvelle position après le mouvement
-        new_pos = predictLocalisation(curr_loc, new_mov);
-
-        // Vérification : si la position est invalide ou hors des limites
+        // Validation et ajustement du mouvement
         if (!isValidLocalisation(new_pos.pos, map.x_max, map.y_max)) {
+            printf("Position invalide (%d, %d). Pas de nœud créé.\n", new_pos.pos.x, new_pos.pos.y);
             continue;
         }
 
-        // Ajuster le mouvement en fonction du terrain actuel
         new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
-        int is_static = 0;
+        if (new_mov == -2) {
+            printf("MARC est tombé dans une crevasse. Pas de nœud créé.\n");
+            continue;
+        }
 
-        if (new_mov == -1) {
-            is_static = 1; // Le nœud sera marqué comme statique
+        int is_static = (new_mov == -1);
+        if (is_static) {
+            printf("Mouvement inutilisable. MARC reste statique.\n");
             new_mov = F_10; // Mouvement par défaut neutre
         }
-        if (new_mov == -2) {
-            continue; // Passe à l'enfant suivant, le rover est mort car tombé dans une crevasse
-        }
 
-        // Gestion du terrain Reg
-        int next_nb_children = nb_children - 1; // Variable temporaire pour limiter les enfants
+        // Gestion des enfants et coût
+        int effective_nb_children = nb_children; // Isolation de nb_children pour ce nœud
         if (map.soils[new_pos.pos.y][new_pos.pos.x] == REG) {
-            if (nb_children > 5) {
-                next_nb_children = 5;
-            } else {
-                next_nb_children = nb_children - 1;
-            }
+            printf("Terrain Reg rencontré. Limitation locale à 5 enfants.\n");
+            effective_nb_children = (effective_nb_children > 5) ? 5 : effective_nb_children;
         }
 
+        int cost = is_static ? parent->cost : map.costs[new_pos.pos.y][new_pos.pos.x];
 
-
-        // Récupérer le coût de la position
-        int cost;
-        if (is_static) {
-            cost = parent->cost;
-        } else {
-            cost = map.costs[new_pos.pos.y][new_pos.pos.x];
-        }
-
-        // Créer un enfant
-        temp_node = create_node(new_mov, cost, next_nb_children);
-        if (temp_node == NULL) {
+        // Création du nœud enfant
+        t_node* child = create_node(new_mov, cost, effective_nb_children - 1);
+        if (child == NULL) {
+            printf("Erreur : Impossible de créer un enfant.\n");
             continue;
         }
 
-        // Ajouter l’enfant au parent
-        add_child(parent, temp_node);
-        created_children++;
+        // Ajout de l’enfant au parent
+        add_child(parent, child);
 
-        // Vérifie si le nombre maximum d'enfants est atteint
-        if (created_children >= nb_children) {
-            break; // Tous les enfants nécessaires ont été créés
-        }
+        // Mise à jour des mouvements disponibles pour cet enfant
+        local_branch_moves[type]--;
+        local_total_moves--;
 
-        // Préparer une copie propre pour la récursivité
-        int child_branch_moves[7];
-        memcpy(child_branch_moves, branch_moves, sizeof(int) * 7);
-        if (!is_static) {
-            child_branch_moves[type]--;
-            total_moves--;
-        }
-
-        // Appel récursif avec la copie propre
-        build_from_node(temp_node, next_nb_children, new_pos, map, child_branch_moves, total_moves);
+        // Appel récursif pour cet enfant avec des paramètres isolés
+        build_from_node(child, effective_nb_children - 1, new_pos, map, local_branch_moves, local_total_moves);
     }
+
+    printf("Création terminée pour ce parent (%d, %d). Enfants créés : %d\n",
+           curr_loc.pos.x, curr_loc.pos.y, parent->num_children);
 }
+
 
 
 
@@ -185,7 +174,7 @@ t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc)
     p_tree->root->cost = map.costs[start_loc.pos.x][start_loc.pos.y];
     int nbmoves[] ={21,15,7,7,21,21,7}; // commencer avec un tabkeau décrémenté avec le mouvement
     // de la racine déjà pioché qui vaut F_10
-    build_from_node(p_tree->root,nb_movements,start_loc,map, nbmoves, 99);
+    build_from_node(p_tree->root,nb_movements,start_loc,map, nbmoves, 100);
     return p_tree;
 }
 
