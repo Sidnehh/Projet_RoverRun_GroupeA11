@@ -45,7 +45,6 @@ t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc);
 
 t_node* find_min_cost_node(t_node* cur_node, t_node* min_node);
 
-
 // Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
 t_node* getMinRec(t_tree* tree);
 

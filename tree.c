@@ -41,8 +41,6 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
             }
             break;
 
-        case REG:
-            break; // Limite déjà gérée dans build_from_node
 
         default:
             break;
@@ -54,28 +52,23 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
 
 
 void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves) {
-    // Conditions d'arrêt globales
-    if (parent == NULL) {
-        printf("Conditions d'arrêt globales atteintes. Fin de la récursivité.\n");
+    // Vérifications initiales
+    if (parent == NULL || nb_children <= 0 || total_moves <= 0) {
+        printf("Conditions d'arrêt globales atteintes pour (%d, %d). Enfants restants : %d, Mouvements disponibles : %d.\n",
+               curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
         return;
     }
 
-    printf("Construction pour parent à (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
+    printf("Construction pour parent (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
            curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
 
-    // Boucle sur les enfants à créer
     for (int i = 0; i < nb_children; i++) {
         if (total_moves <= 0) {
-            printf("Plus de mouvements disponibles. Arrêt.\n");
-            break;
+            printf("Plus de mouvements disponibles. Arrêt pour cet enfant.\n");
+            return;
         }
 
-        // Étape 1 : Création d'une copie locale des mouvements disponibles
-        int local_branch_moves[7];
-        memcpy(local_branch_moves, branch_moves, sizeof(int) * 7);
-        int local_total_moves = total_moves; // Copie locale de total_moves
-
-        // Sélection du mouvement
+        // Tirage aléatoire d’un mouvement
         int r = rand() % total_moves;
         int type = 0;
         while (r >= branch_moves[type]) {
@@ -86,49 +79,43 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
         t_move new_mov = (t_move)type;
         t_localisation new_pos = predictLocalisation(curr_loc, new_mov);
 
-        // Validation et ajustement du mouvement
+        // Vérification de la position
         if (!isValidLocalisation(new_pos.pos, map.x_max, map.y_max)) {
             printf("Position invalide (%d, %d). Pas de nœud créé.\n", new_pos.pos.x, new_pos.pos.y);
-            continue;
         }
 
+        // Ajustement du mouvement en fonction du terrain
         new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
-        if (new_mov == -2) {
-            printf("MARC est tombé dans une crevasse. Pas de nœud créé.\n");
-            continue;
+        if (new_mov == -1) {
+            printf("Mouvement inutilisable sur terrain Erg. MARC reste statique.\n");
+            new_mov = F_10; // Assurez-vous que F_10 est un mouvement valide
         }
 
-        int is_static = (new_mov == -1);
-        if (is_static) {
-            printf("Mouvement inutilisable. MARC reste statique.\n");
-            new_mov = F_10; // Mouvement par défaut neutre
-        }
 
-        // Gestion des enfants et coût
-        int effective_nb_children = nb_children; // Isolation de nb_children pour ce nœud
-        if (map.soils[new_pos.pos.y][new_pos.pos.x] == REG) {
-            printf("Terrain Reg rencontré. Limitation locale à 5 enfants.\n");
-            effective_nb_children = (effective_nb_children > 5) ? 5 : effective_nb_children;
-        }
+        // Récupération du coût
+        int cost = map.costs[new_pos.pos.y][new_pos.pos.x];
 
-        int cost = is_static ? parent->cost : map.costs[new_pos.pos.y][new_pos.pos.x];
-
-        // Création du nœud enfant
-        t_node* child = create_node(new_mov, cost, effective_nb_children - 1);
+        // Création et ajout de l'enfant
+        t_node* child = create_node(new_mov, cost, nb_children - 1); // Utilisation de nb_children - 1 ici pour limiter la profondeur
         if (child == NULL) {
             printf("Erreur : Impossible de créer un enfant.\n");
-            continue;
+        }
+        if (new_mov != -2 && child!=NULL && isValidLocalisation(new_pos.pos, map.x_max, map.y_max))
+        {
+            add_child(parent, child);
+            int child_branch_moves[7];
+            memcpy(child_branch_moves, branch_moves, sizeof(int) * 7);
+            child_branch_moves[type]--;
+
+            int updated_total_moves = total_moves - 1;
+
+            printf("Appel récursif pour enfant (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
+                   new_pos.pos.x, new_pos.pos.y, nb_children - 1, updated_total_moves);
+
+            // Appel récursif
+            build_from_node(child, nb_children - 1, new_pos, map, child_branch_moves, updated_total_moves);
         }
 
-        // Ajout de l’enfant au parent
-        add_child(parent, child);
-
-        // Mise à jour des mouvements disponibles pour cet enfant
-        local_branch_moves[type]--;
-        local_total_moves--;
-
-        // Appel récursif pour cet enfant avec des paramètres isolés
-        build_from_node(child, effective_nb_children - 1, new_pos, map, local_branch_moves, local_total_moves);
     }
 
     printf("Création terminée pour ce parent (%d, %d). Enfants créés : %d\n",
