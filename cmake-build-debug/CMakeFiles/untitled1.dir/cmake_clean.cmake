@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/untitled1.dir/main.c.obj.d"
   "CMakeFiles/untitled1.dir/map.c.obj"
   "CMakeFiles/untitled1.dir/map.c.obj.d"
+  "CMakeFiles/untitled1.dir/mark.c.obj"
+  "CMakeFiles/untitled1.dir/mark.c.obj.d"
   "CMakeFiles/untitled1.dir/moves.c.obj"
   "CMakeFiles/untitled1.dir/moves.c.obj.d"
   "CMakeFiles/untitled1.dir/node.c.obj"

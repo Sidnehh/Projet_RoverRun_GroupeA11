@@ -2,6 +2,7 @@
 #include "map.h"
 #include "tree.h"
 #include "loc.h"
+#include "mark.h"
 #include "stack.h"
 #include "time.h"
 #include "moves.h"
@@ -10,25 +11,27 @@
 
 int main() {
     SetConsoleOutputCP(65001); // Pour pouvoir mettre des caractères spéciaux
+
+    // Charger la carte
+    printf("Chargement de la carte...\n");
     t_map map;
-    // The following preprocessor directive checks if the code is being compiled on a Windows system.
-    // If either _WIN32 or _WIN64 is defined, it means we are on a Windows platform.
-    // On Windows, file paths use backslashes (\), hence we use the appropriate file path for Windows.
+
 #if defined(_WIN32) || defined(_WIN64)
     map = createMapFromFile("..\\maps\\example1.map");
 #else
     map = createMapFromFile("../maps/example1.map");
 #endif
-    // Charger la carte
-    printf("Chargement de la carte...\n");
 
     // Définir la position de départ
+
     t_localisation start_loc;
     start_loc.pos.x = 0;
     start_loc.pos.y = 0;
     start_loc.ori = SOUTH;
 
-    // Chronométrer la construction de l'arbre
+    MarcFullTravel(start_loc, map);
+
+    /*// Chronométrer la construction de l'arbre
     printf("\nConstruction de l'arbre de mouvements...\n");
     clock_t start_time = clock();
     t_tree* tree = create_tree( 3, map, start_loc); // Exemple avec 3 mouvements
@@ -64,7 +67,8 @@ int main() {
     free_tree(tree);
     end_time = clock();
     printf("Temps pour libérer la mémoire : %.4f secondes\n",
-           (double)(end_time - start_time) / CLOCKS_PER_SEC);
+           (double)(end_time - start_time) / CLOCKS_PER_SEC);*/
+
 
     return 0;
 }

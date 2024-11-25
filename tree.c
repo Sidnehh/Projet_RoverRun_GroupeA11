@@ -23,25 +23,28 @@ void add_child(t_node* parent, t_node* child)
 t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position, t_map map) {
     t_soil current_soil = map.soils[current_position.y][current_position.x];
 
-    switch (current_soil) {
+    switch (current_soil)
+    {
         case CREVASSE:
             return -2; // Indique la mort de MARC
-
         case ERG:
-            if (chosen_move == F_10 || chosen_move == B_10) {
-                return -1;
-            } else if (chosen_move == F_20) {
+            if (chosen_move == F_10 || chosen_move == B_10)
+            {
+                return STILL;
+            }
+            else if (chosen_move == F_20)
+            {
                 return F_10;
-            } else if (chosen_move == F_30) {
+            }
+            else if (chosen_move == F_30)
+            {
                 return F_20;
-            } else if (chosen_move == T_LEFT || chosen_move == T_RIGHT) {
+            }
+            else if (chosen_move == T_LEFT || chosen_move == T_RIGHT)
+            {
                 return U_TURN;
             }
             break;
-
-        case REG:
-            break; // Limite déjà gérée dans build_from_node
-
         default:
             break;
     }
@@ -50,10 +53,10 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
 }
 
 
-
 void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves) {
     // Conditions d'arrêt globales
-    if (parent == NULL) {
+    if (parent == NULL)
+    {
         printf("Conditions d'arrêt globales atteintes. Fin de la récursivité.\n");
         return;
     }
@@ -80,7 +83,6 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
             r -= branch_moves[type];
             type++;
         }
-
         t_move new_mov = (t_move)type;
         t_localisation new_pos = predictLocalisation(curr_loc, new_mov);
 
@@ -95,25 +97,20 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
             printf("MARC est tombé dans une crevasse. Pas de nœud créé.\n");
             continue;
         }
-
-        int is_static = (new_mov == -1);
-        if (is_static) {
-            printf("Mouvement inutilisable. MARC reste statique.\n");
-            new_mov = F_10; // Mouvement par défaut neutre
+        else if (new_mov == STILL)
+        {
+            printf("Mouvement inutilisable, Marc reste immobile\n");
         }
 
         // Gestion des enfants et coût
         int effective_nb_children = nb_children; // Isolation de nb_children pour ce nœud
-        if (map.soils[new_pos.pos.y][new_pos.pos.x] == REG) {
-            printf("Terrain Reg rencontré. Limitation locale à 5 enfants.\n");
-            effective_nb_children = (effective_nb_children > 5) ? 5 : effective_nb_children;
-        }
 
-        int cost = is_static ? parent->cost : map.costs[new_pos.pos.y][new_pos.pos.x];
+        int cost = map.costs[new_pos.pos.y][new_pos.pos.x];
 
         // Création du nœud enfant
         t_node* child = create_node(new_mov, cost, effective_nb_children - 1);
-        if (child == NULL) {
+        if (child == NULL)
+        {
             printf("Erreur : Impossible de créer un enfant.\n");
             continue;
         }
@@ -253,11 +250,11 @@ t_stack findMinCostPath(t_tree* tree) {
     t_stack stackMinPath = createStack(tree->root->num_children);
 
     while (cur_node != tree->root) {
-        push(&stackMinPath, cur_node->cost);
+        push(&stackMinPath, cur_node->mvt_for_access);
         cur_node = cur_node->parent;
     }
 
-    push(&stackMinPath, tree->root->cost);
+    push(&stackMinPath, tree->root->mvt_for_access);
 
     t_stack stackMinPathOrder = createStack(stackMinPath.nbElts);
 

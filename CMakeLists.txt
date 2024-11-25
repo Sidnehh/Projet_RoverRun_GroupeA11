@@ -9,4 +9,6 @@ add_executable(untitled1
         stack.c
         tree.c
         node.c
-        node.h)
+        node.h
+        mark.h
+        mark.c)

@@ -200,6 +200,30 @@ map.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/map.c.s
 .PHONY : map.c.s
 
+mark.obj: mark.c.obj
+.PHONY : mark.obj
+
+# target to build an object file
+mark.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/mark.c.obj
+.PHONY : mark.c.obj
+
+mark.i: mark.c.i
+.PHONY : mark.i
+
+# target to preprocess a source file
+mark.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/mark.c.i
+.PHONY : mark.c.i
+
+mark.s: mark.c.s
+.PHONY : mark.s
+
+# target to generate assembly for a file
+mark.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/mark.c.s
+.PHONY : mark.c.s
+
 moves.obj: moves.c.obj
 .PHONY : moves.obj
 
@@ -338,6 +362,9 @@ help:
 	@echo ... map.obj
 	@echo ... map.i
 	@echo ... map.s
+	@echo ... mark.obj
+	@echo ... mark.i
+	@echo ... mark.s
 	@echo ... moves.obj
 	@echo ... moves.i
 	@echo ... moves.s
