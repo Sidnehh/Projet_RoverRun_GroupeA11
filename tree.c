@@ -47,7 +47,9 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
 }
 
 void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map)
+
 {
+    printf("1\n");
     if (parent==NULL)
     {
         return;
@@ -56,8 +58,10 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
     t_move new_mov;
     t_localisation new_pos;
     t_move* moves = getRandomMoves(nb_children);
+
     for(int i=0;i<nb_children;i++)
     {
+
         new_mov = moves[i];
         new_pos = predictLocalisation(curr_loc, new_mov);
         new_mov = adjustMoveBasedOnTerrain(new_mov, new_pos.pos, map);
