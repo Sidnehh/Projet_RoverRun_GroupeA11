@@ -34,7 +34,7 @@ t_tree* allocate_tree(int nb_movements);
 
 t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position, t_map map);
 //Crée une structure de n enfants à un noeud
-void build_from_node(t_node* node, int nb_children, t_localisation curr_loc, t_map map);
+void build_from_node(t_node* node, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves);
 
 // Crée un arbre
 t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc);
