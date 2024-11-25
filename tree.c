@@ -31,7 +31,7 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
         case ERG:
             if (chosen_move == F_10 || chosen_move == B_10)
             {
-                return STILL
+                return STILL;
             } else if (chosen_move == F_20) {
                 return F_10;
             } else if (chosen_move == F_30) {
