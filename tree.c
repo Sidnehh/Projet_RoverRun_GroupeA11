@@ -29,8 +29,9 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
             return -2; // Indique la mort de MARC
 
         case ERG:
-            if (chosen_move == F_10 || chosen_move == B_10) {
-                return -1;
+            if (chosen_move == F_10 || chosen_move == B_10)
+            {
+                return STILL
             } else if (chosen_move == F_20) {
                 return F_10;
             } else if (chosen_move == F_30) {
@@ -81,11 +82,6 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
 
         // Ajustement du mouvement en fonction du terrain
         new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
-        if (new_mov == -1) {
-            printf("Mouvement inutilisable sur terrain Erg. MARC reste statique.\n");
-            new_mov = F_10; // Assurez-vous que F_10 est un mouvement valide
-        }
-
 
         // Récupération du coût
         int cost = map.costs[new_pos.pos.y][new_pos.pos.x];
