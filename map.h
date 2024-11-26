@@ -55,5 +55,6 @@ t_map createMapFromFile(char *);
  */
 void displayMap(t_map);
 int checkValidPosition(t_position position, t_map map);
+t_map GenerateRandomMap(int x, int y);
 
 #endif //UNTITLED1_MAP_H

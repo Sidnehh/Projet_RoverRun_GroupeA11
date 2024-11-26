@@ -14,11 +14,12 @@ int main() {
     SetConsoleOutputCP(65001); // Pour pouvoir mettre des caractères spéciaux
 
     // Charger la carte
-    printf("Chargement de la carte...\n");
+    //printf("Chargement de la carte...\n");
     t_map map;
+    map = GenerateRandomMap(10,10);
 
 #if defined(_WIN32) || defined(_WIN64)
-    map = createMapFromFile("..\\maps\\example2.map");
+    map = createMapFromFile("..\\maps\\example3.txt");
 #else
     map = createMapFromFile("../maps/example1.map");
 #endif
@@ -67,7 +68,7 @@ int main() {
            (double)(end_time - start_time) / CLOCKS_PER_SEC);
 
     // Lancement de l'interface graphique
-    graphic(map, minPath);
+    graphic(map, start_loc);
 
 
     return 0;

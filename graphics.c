@@ -57,37 +57,55 @@ Color GetColorFromPos(int x, int y, t_map map)
 }
 
 
-int graphic(t_map map, t_stack path)
+int graphic(t_map map, t_localisation pos)
 {
-    const int screenWidth = 650;
-    const int screenHeight = 600;
-    t_localisation robotpos;
-    robotpos.pos.x = 0;
-    robotpos.pos.y = 0;
+    t_stack path = findMinCostPath(create_tree(9,map,pos));
+    const int screenWidth = 800;
+    const int screenHeight = 800;
+    t_localisation robotpos = pos;
     int rectangleposx = 0;
     int rectangleposy = 0;
-    robotpos.ori = SOUTH;
     int i;
+    int phases = 2;
+    int custom_height = screenHeight/10;
+    int custom_width = screenWidth/10;
+    int custom_gap = screenWidth/10;
+    printf("Phase 1: \n");
+
+
     InitWindow(screenWidth, screenHeight, "");
     SetTargetFPS(1);  // Limiter à 60 images par seconde
     while (!WindowShouldClose()) { // Tant que la fenêtre n'est pas fermée
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        for(i=0;i<map.y_max;i++)
+        for(i=0;i<map.y_max-1;i++)
         {
             for(int j=0;j<map.x_max;j++)
             {
-                DrawRectangle(50+i*100, 10+j*100, 80, 80, GetColorFromPos(j,i,map));
+                DrawRectangle(50+i*100, 10+j*100, custom_width, custom_height, GetColorFromPos(j,i,map));
             }
         }
-        rectangleposx = 50+robotpos.pos.x*100;
-        rectangleposy = 50+robotpos.pos.y*100;
+        rectangleposx = robotpos.pos.x*100+70;
+        rectangleposy = robotpos.pos.y*100+30;
         DrawRectangle(rectangleposx, rectangleposy, 40, 40, BLACK);
         DrawRectangle(rectangleposx+15+10* GetOrientationPosX(robotpos.ori), rectangleposy+15+10* GetOrientationPosY(robotpos.ori),10,10,BLUE);
 
         if(path.nbElts>0)
+        {
             updateLocalisation(&robotpos, pop(&path));
+        }
+        else
+        {
+            if(map.costs[robotpos.pos.x][robotpos.pos.y]!=0)
+            {
+                printf("Phase: %d\n", phases++);
+                path = findMinCostPath(create_tree(9, map, robotpos));
+            }
+            else
+                printf("Trouvé.\n");
+        }
+        printf("x:%d, y:%d, cost:%d\n", robotpos.pos.x, robotpos.pos.y, map.costs[robotpos.pos.x][robotpos.pos.y]);
         // Fin du dessin
         EndDrawing();
     }

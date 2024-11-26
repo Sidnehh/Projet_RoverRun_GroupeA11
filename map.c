@@ -308,3 +308,36 @@ int checkValidPosition(t_position position, t_map map)
         return 0;
     return 1;
 }
+
+t_map GenerateRandomMap(int x, int y)
+{
+    t_map map;
+
+    map.x_max = x;
+    map.y_max = y;
+
+    map.soils = (t_soil **)malloc(y * sizeof(t_soil *));
+    for (int i = 0; i < y; i++)
+    {
+        map.soils[i] = (t_soil *)malloc(x * sizeof(t_soil));
+    }
+    map.costs = (int **)malloc(y* sizeof(int *));
+    for (int i = 0; i < y; i++)
+    {
+        map.costs[i] = (int *)malloc(x* sizeof(int));
+    }
+
+    int xbase = rand()%x;
+    int ybase = rand()%y;
+    for(int i=0; i<y; i++)
+    {
+        for (int j = 0; j < x; j++)
+        {
+            if(j==xbase && i==ybase)
+                map.soils[j][i] = 0;
+            else
+                map.soils[j][i] = 1+rand()%4;
+        }
+    }
+    return map;
+}
