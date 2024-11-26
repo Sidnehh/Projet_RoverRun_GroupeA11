@@ -10,7 +10,7 @@
 /**
  * @brief Array of strings for the possible moves of the robot
  */
-static char _moves[8][8] = {"F 10m", "F 20m", "F 30m", "B 10m", "T left", "T right", "U-turn"};
+static char _moves[8][8] = {"F 10m", "F 20m", "F 30m", "B 10m", "T left", "T right", "U-turn", "STILL"};
 
 /**
  * @brief Enum for the possible moves of the robot
@@ -25,7 +25,7 @@ typedef enum e_move
     T_LEFT, // Turn left (+90°)
     T_RIGHT, // Turn right (-90°)
     U_TURN,
-    STILL,
+    STILL,  // Position inchangée, ajoutée pour s'adapter à ERG
 } t_move;
 
 typedef struct move_proba

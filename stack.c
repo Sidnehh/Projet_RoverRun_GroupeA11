@@ -6,6 +6,7 @@
 #include <assert.h>
 #include "stack.h"
 #include "stdio.h"
+#include "moves.h"
 
 /**
  * @brief Function to create a stack
@@ -85,7 +86,7 @@ void displayStack(t_stack s)
     }
     for (int cpt = 0; cpt <size; cpt++)
     {
-        printf("%d --> ", s.values[cpt]);
+        printf("%s --> ", getMoveAsString(s.values[cpt]));
     }
     printf("\n");
     return;

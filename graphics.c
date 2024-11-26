@@ -6,6 +6,31 @@
 #include <raylib.h>
 #include <stdio.h>
 
+int GetOrientationPosX(t_orientation orientation)
+{
+    switch(orientation)
+    {
+        case EAST:
+            return -1;
+        case WEST:
+            return 1;
+        default:
+            return 0;
+    }
+}
+int GetOrientationPosY(t_orientation orientation)
+{
+    switch(orientation)
+    {
+        case NORTH:
+            return -1;
+        case SOUTH:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
 Color GetColorFromPos(int x, int y, t_map map)
 {
     Color color;
@@ -31,19 +56,17 @@ Color GetColorFromPos(int x, int y, t_map map)
     return color;
 }
 
-int graphic()
+int graphic(t_map map, t_stack path)
 {
-    t_map map = createMapFromFile("..\\maps\\example1.map");
     const int screenWidth = 650;
     const int screenHeight = 600;
     t_localisation robotpos;
     robotpos.pos.x = 0;
     robotpos.pos.y = 0;
+    int rectangleposx = 0;
+    int rectangleposy = 0;
     robotpos.ori = SOUTH;
-    int movements = 7;
     int i;
-    t_tree* tree = create_tree(movements,map,robotpos);
-    t_stack path = findMinCostPath(tree);
 
     InitWindow(screenWidth, screenHeight, "Test Raylib");
     SetTargetFPS(1);  // Limiter à 60 images par seconde
@@ -58,8 +81,11 @@ int graphic()
                 DrawRectangle(50+i*100, 10+j*100, 80, 80, GetColorFromPos(j,i,map));
             }
         }
+        rectangleposx = 50+robotpos.pos.x*100;
+        rectangleposy = 50+robotpos.pos.y*100;
+        DrawRectangle(rectangleposx, rectangleposy, 40, 40, BLACK);
+        DrawRectangle(rectangleposx+15+10* GetOrientationPosX(robotpos.ori), rectangleposy+15+10* GetOrientationPosY(robotpos.ori),10,10,BLUE);
 
-        DrawRectangle(50+robotpos.pos.x*100, 10+robotpos.pos.y*100, 40, 40, BLACK);
         if(path.nbElts>0)
             updateLocalisation(&robotpos, pop(&path));
         // Fin du dessin

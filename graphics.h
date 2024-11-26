@@ -9,7 +9,7 @@
 #ifndef UNTITLED1_GRAPHICS_H
 #define UNTITLED1_GRAPHICS_H
 
-int graphic();
+int graphic(t_map map, t_stack path);
 
 
 #endif //UNT;ITLED1_GRAPHICS_H

@@ -47,27 +47,33 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
     return chosen_move; // Si aucun ajustement n'est nécessaire
 }
 
-void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves) {
+void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves)
+{
+    printf("%d, %d\n", nb_children, parent->num_children);
     // Vérifications initiales
-    if (parent == NULL || nb_children <= 0 || total_moves <= 0) {
-        printf("Conditions d'arrêt globales atteintes pour (%d, %d). Enfants restants : %d, Mouvements disponibles : %d.\n",
-               curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
+    if (parent == NULL || nb_children <= 0 || total_moves <= 0)
+    {
+        //printf("Conditions d'arrêt globales atteintes pour (%d, %d). Enfants restants : %d, Mouvements disponibles : %d.\n",
+        //       curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
         return;
     }
 
-    printf("Construction pour parent (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
-           curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
+    //printf("Construction pour parent (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
+    //       curr_loc.pos.x, curr_loc.pos.y, nb_children, total_moves);
 
-    for (int i = 0; i < nb_children; i++) {
-        if (total_moves <= 0) {
-            printf("Plus de mouvements disponibles. Arrêt pour cet enfant.\n");
+    for (int i = 0; i < nb_children; i++)
+    {
+        if (total_moves <= 0)
+        {
+            //printf("Plus de mouvements disponibles. Arrêt pour cet enfant.\n");
             return;
         }
 
         // Tirage aléatoire d’un mouvement
         int r = rand() % total_moves;
         int type = 0;
-        while (r >= branch_moves[type]) {
+        while (r >= branch_moves[type])
+        {
             r -= branch_moves[type];
             type++;
         }
@@ -76,9 +82,8 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
         t_localisation new_pos = predictLocalisation(curr_loc, new_mov);
 
         // Vérification de la position
-        if (!isValidLocalisation(new_pos.pos, map.x_max, map.y_max)) {
-            printf("Position invalide (%d, %d). Pas de nœud créé.\n", new_pos.pos.x, new_pos.pos.y);
-        }
+        if(!checkValidPosition(new_pos.pos, map))
+            continue;
 
         // Ajustement du mouvement en fonction du terrain
         new_mov = adjustMoveBasedOnTerrain(new_mov, curr_loc.pos, map);
@@ -90,18 +95,19 @@ void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t
         t_node *child = create_node(new_mov, cost, nb_children - 1,
                                     parent->depth + 1); // Utilisation de nb_children - 1 ici pour limiter la profondeur
         if (child == NULL) {
-            printf("Erreur : Impossible de créer un enfant.\n");
+            //printf("Erreur : Impossible de créer un enfant.\n");
         }
         if (new_mov != -2 && child != NULL && isValidLocalisation(new_pos.pos, map.x_max, map.y_max)) {
             add_child(parent, child);
             int child_branch_moves[7];
             memcpy(child_branch_moves, branch_moves, sizeof(int) * 7);
             child_branch_moves[type]--;
+            total_moves--;
 
             int updated_total_moves = total_moves - 1;
 
-            printf("Appel récursif pour enfant (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
-                   new_pos.pos.x, new_pos.pos.y, nb_children - 1, updated_total_moves);
+            //printf("Appel récursif pour enfant (%d, %d) avec %d enfants restants et %d mouvements disponibles.\n",
+            //       new_pos.pos.x, new_pos.pos.y, nb_children - 1, updated_total_moves);
 
             // Appel récursif
             build_from_node(child, nb_children - 1, new_pos, map, child_branch_moves, updated_total_moves);

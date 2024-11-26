@@ -6,6 +6,7 @@
 #include "stack.h"
 #include "time.h"
 #include "moves.h"
+#include "graphics.h"
 #define NOMINMAX
 #include <Windows.h>
 
@@ -38,10 +39,6 @@ int main() {
     clock_t end_time = clock();
     printf("Temps pour construire l'arbre : %.4f secondes\n",(double)(end_time - start_time) / CLOCKS_PER_SEC);
 
-    // Afficher l'arbre
-    printf("\nStructure de l'arbre de mouvements :\n");
-    afficher_arbre(tree->root);
-
     // Rechercher le nœud de coût minimal
     printf("\nRecherche du nœud avec le coût minimal...\n");
     start_time = clock();
@@ -68,6 +65,9 @@ int main() {
     end_time = clock();
     printf("Temps pour libérer la mémoire : %.4f secondes\n",
            (double)(end_time - start_time) / CLOCKS_PER_SEC);
+
+    // Lancement de l'interface graphique
+    MarcFullTravel(start_loc, map);
 
 
     return 0;
