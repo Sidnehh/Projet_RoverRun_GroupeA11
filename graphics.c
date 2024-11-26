@@ -67,7 +67,6 @@ int graphic(t_map map, t_stack path)
     int rectangleposy = 0;
     robotpos.ori = SOUTH;
     int i;
-
     InitWindow(screenWidth, screenHeight, "Test Raylib");
     SetTargetFPS(1);  // Limiter à 60 images par seconde
     while (!WindowShouldClose()) { // Tant que la fenêtre n'est pas fermée

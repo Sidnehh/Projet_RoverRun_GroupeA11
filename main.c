@@ -67,7 +67,7 @@ int main() {
            (double)(end_time - start_time) / CLOCKS_PER_SEC);
 
     // Lancement de l'interface graphique
-    MarcFullTravel(start_loc, map);
+    graphic(map, minPath);
 
 
     return 0;
