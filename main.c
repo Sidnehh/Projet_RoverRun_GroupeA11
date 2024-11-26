@@ -18,7 +18,7 @@ int main() {
     t_map map;
 
 #if defined(_WIN32) || defined(_WIN64)
-    map = createMapFromFile("..\\maps\\example1.map");
+    map = createMapFromFile("..\\maps\\example2.map");
 #else
     map = createMapFromFile("../maps/example1.map");
 #endif

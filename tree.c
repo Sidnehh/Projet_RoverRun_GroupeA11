@@ -36,8 +36,9 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
                 return F_10;
             } else if (chosen_move == F_30) {
                 return F_20;
-            } else if (chosen_move == T_LEFT || chosen_move == T_RIGHT) {
-                return U_TURN;
+            } else if (chosen_move == U_TURN)
+            {
+                return T_LEFT;
             }
             break;
         default:
@@ -49,7 +50,7 @@ t_move adjustMoveBasedOnTerrain(t_move chosen_move, t_position current_position,
 
 void build_from_node(t_node* parent, int nb_children, t_localisation curr_loc, t_map map, int branch_moves[], int total_moves)
 {
-    printf("%d, %d\n", nb_children, parent->num_children);
+    //printf("%d, %d\n", nb_children, parent->num_children);
     // Vérifications initiales
     if (parent == NULL || nb_children <= 0 || total_moves <= 0)
     {
@@ -187,32 +188,54 @@ void free_tree(t_node* root)
     free(root);
 }
 
-t_node* find_min_cost_node(t_node* cur_node, t_node* min_node){
-    if(cur_node== NULL){
-        printf("Erreur: arbre vide");
+int find_min_cost(t_node* cur_node, int min_cost)
+{
+    if((cur_node->cost < min_cost))
+    {
+        min_cost = cur_node->cost;
     }
-    if(cur_node->cost < min_node->cost){
+    for (int i = 0; i < cur_node->num_children; i++)
+    {
+        min_cost = find_min_cost(cur_node->children[i], min_cost);
+    }
+    return min_cost;
+}
+
+t_node* find_min_cost_node(t_node* cur_node, t_node* min_node, int min_cost)
+{
+    if(cur_node== NULL)
+    {
+        printf("Erreur: arbre vide");
+        return NULL;
+    }
+    //printf("nb children %d, cost %d, donc : %d\n",cur_node->num_children, cur_node->cost,(cur_node->cost == min_cost) && (cur_node->num_children >= min_node->num_children));
+    if((cur_node->cost == min_cost) && (cur_node->num_children >= min_node->num_children))
+    {
         min_node = cur_node;
     }
-    for (int i = 0; i < cur_node->num_children; i++) {
-        min_node = find_min_cost_node(cur_node->children[i], min_node);
+    for (int i = 0; i < cur_node->num_children; i++)
+    {
+
+        min_node = find_min_cost_node(cur_node->children[i], min_node,min_cost);
     }
     return min_node;
 }
-
 t_node* getMinRec(t_tree* tree)
 {
     if(tree == NULL || tree -> root == NULL)
     {
         return NULL;
     }
+    int min_cost = find_min_cost(tree->root, tree->root->cost);
     t_node* i_node = (t_node*)malloc(sizeof(t_node));
     if(i_node == NULL)
     {
         printf("Erreur");
+        return NULL;
     }
-    i_node->cost = 15000;// On crée un noeud avec un coût très élevé
-    t_node * result = find_min_cost_node(tree->root,i_node);
+    i_node->cost = min_cost;// On crée un noeud avec un coût très élevé
+    i_node->num_children = 0;
+    t_node * result = find_min_cost_node(tree->root, i_node, min_cost);
     return result;
 }
 
@@ -233,19 +256,20 @@ t_stack findMinCostPath(t_tree* tree) {
     t_node *cur_node = min_node;
     t_stack stackMinPath = createStack(tree->root->num_children);
 
-    while (cur_node != tree->root) {
+    while (cur_node != tree->root)
+    {
         push(&stackMinPath, cur_node->mvt_for_access);
         cur_node = cur_node->parent;
     }
-
+    pop(&stackMinPath);
     push(&stackMinPath, tree->root->mvt_for_access);
 
-    t_stack stackMinPathOrder = createStack(stackMinPath.nbElts);
+    //t_stack stackMinPathOrder = createStack(stackMinPath.nbElts);
 
-    while (!isEmptyStack(stackMinPath)) {
-        push(&stackMinPathOrder, pop(&stackMinPath));
-    }
+    //while (!isEmptyStack(stackMinPath)) {
+       // push(&stackMinPathOrder, pop(&stackMinPath));
+    //}
 
-    return stackMinPathOrder; // Retourne la pile contenant le chemin minimal inversé
+    return stackMinPath; // Retourne la pile contenant le chemin minimal inversé
 }
 

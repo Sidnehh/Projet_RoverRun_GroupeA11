@@ -11,9 +11,9 @@ int GetOrientationPosX(t_orientation orientation)
     switch(orientation)
     {
         case EAST:
-            return -1;
-        case WEST:
             return 1;
+        case WEST:
+            return -1;
         default:
             return 0;
     }
@@ -56,6 +56,7 @@ Color GetColorFromPos(int x, int y, t_map map)
     return color;
 }
 
+
 int graphic(t_map map, t_stack path)
 {
     const int screenWidth = 650;
@@ -67,7 +68,7 @@ int graphic(t_map map, t_stack path)
     int rectangleposy = 0;
     robotpos.ori = SOUTH;
     int i;
-    InitWindow(screenWidth, screenHeight, "Test Raylib");
+    InitWindow(screenWidth, screenHeight, "");
     SetTargetFPS(1);  // Limiter à 60 images par seconde
     while (!WindowShouldClose()) { // Tant que la fenêtre n'est pas fermée
         BeginDrawing();

@@ -39,7 +39,7 @@ void build_from_node(t_node* node, int nb_children, t_localisation curr_loc, t_m
 // Crée un arbre
 t_tree* create_tree(int nb_movements, t_map map, t_localisation start_loc);
 
-t_node* find_min_cost_node(t_node* cur_node, t_node* min_node);
+t_node* find_min_cost_node(t_node* cur_node, t_node* min_node, int min_cost);
 
 // Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
 t_node* getMinRec(t_tree* tree);
@@ -47,4 +47,5 @@ t_node* getMinRec(t_tree* tree);
 // Recherche le chemin depuis la racine vers la feuille de valeur minimale d'un arbre
 void afficher_arbre(t_node* root);
 t_stack findMinCostPath(t_tree* tree);
+int find_min_cost(t_node* cur_node, int min_cost);
 #endif // UNTITLED1_TREE_H
