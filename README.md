@@ -1,6 +1,6 @@
 # Projet_RoverRun
 
-# Rover Run (C) — Minimum Cost Path sur carte
+# Rover Run (C) - Minimum Cost Path sur carte
 
 Projet en langage C visant à simuler le déplacement d’un rover sur une carte (type Mars) en **modélisant le terrain comme un graphe pondéré** afin de calculer un **chemin de coût minimal** entre deux positions. Une interface graphique (prototype) permet de visualiser la carte et l’exécution.
 
