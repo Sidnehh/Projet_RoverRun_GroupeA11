@@ -19,12 +19,6 @@ Le projet inclut également une logique de **Min-Cost Path** pour calculer autom
   - cases **interdites** (obstacles)
 - Déplacements autorisés : **4 directions** (haut/bas/gauche/droite) *(ou 8 si diagonales)*
 
-### Objectif
-Trouver un chemin qui minimise :
-\[
-C(\text{chemin}) = \sum \text{coût des cases traversées}
-\]
-(ou coût des mouvements selon ton implémentation)
 
 ### Sortie
 - Chemin optimal (liste de positions / étapes)
@@ -36,7 +30,7 @@ C(\text{chemin}) = \sum \text{coût des cases traversées}
 Le projet exploite / illustre des structures de données classiques :
 
 - **Pile (Stack)** : structure **LIFO** (*Last In, First Out*)  
-  Exemple d’usage : mémoriser des actions, gérer un historique, backtracking, etc.
+  Exemple d’usage : mémoriser des actions
 
 - **File (Queue)** : structure **FIFO** (*First In, First Out*)  
-  Exemple d’usage : traiter des éléments dans l’ordre d’arrivée (parcours niveau par niveau, gestion de tâches, etc.)
+  Exemple d’usage : traiter des éléments dans l’ordre d’arrivée 
